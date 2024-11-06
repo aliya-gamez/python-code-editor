@@ -21,46 +21,73 @@ class TextEditor:
         self.mainframe = ttk.Frame(root)
         self.mainframe.pack(fill=tk.BOTH,expand=1)
 
-        # Canvas creation and configuration
-        self.left_canvas = tk.Canvas(self.mainframe,width=5,background=base_tone,
-        insertbackground=normal_text,highlightthickness=0,relief=tk.FLAT)
-        self.left_canvas.pack(side=tk.LEFT,fill=tk.Y)
-        self.right_canvas = tk.Canvas(self.mainframe,background=number)
-        self.right_canvas.pack(side=tk.RIGHT,fill=tk.Y)
+        # Codecanvas creation for scrolling area
+        self.codecanvas = tk.Canvas(self.mainframe, background=base_bg, highlightthickness=0)
+        self.codecanvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
+
+        # New Scrollbar configuration
+        # self.scrollbar = tk.Scrollbar(self.mainframe,orient=tk.VERTICAL,command=self.codecanvas.yview,bg=base_tone,highlightthickness=0,relief=tk.FLAT,troughcolor=base_bg,highlightcolor=base_bg,highlightbackground=mantle_bg,activebackground=base_bg,bd=0)
+        # self.scrollbar.pack(side=tk.RIGHT,fill=tk.Y)
+        # self.codecanvas.config(yscrollcommand=self.scrollbar.set) #link scrollbar to codecanvas
+
+        # Frame to contain editor and line numbers inside the scrollable codecanvas
+        self.codecanvas_frame = ttk.Frame(self.codecanvas)
+        self.codecanvas_frame.pack(fill=tk.BOTH,expand=1)
 
         # Initialize Text Widget
-        self.editor = tk.Text(self.mainframe,spacing3=5,background=base_bg,foreground=normal_text,
-        highlightthickness=0,insertbackground=normal_text,relief=tk.FLAT,borderwidth=0,font=code_font)
-        self.editor.pack(side=tk.RIGHT,fill=tk.BOTH,expand=1)
+        self.editor = tk.Text(self.codecanvas_frame,spacing3=5,background=base_bg,foreground=normal_text,highlightthickness=0,insertbackground=normal_text,relief=tk.FLAT,borderwidth=0,font=code_font)
+        #self.editor.pack(side=tk.RIGHT,fill=tk.BOTH,expand=1)
+        self.editor.grid(row=0, column=1, sticky="nsew")
 
         # Initialize "Line Number" Text Widget
-        self.line_numbers = tk.Text(self.left_canvas,width=5,state=tk.DISABLED,cursor="arrow",spacing3=5,background=base_tone,foreground=normal_text,
-        highlightthickness=0,insertbackground=normal_text,relief=tk.FLAT,borderwidth=0,font=code_font,
-        selectbackground=base_tone)
-        self.line_numbers.pack(side=tk.LEFT,fill=tk.Y,expand=1)
+        self.line_numbers = tk.Text(self.codecanvas_frame,width=5,state=tk.DISABLED,cursor="arrow",spacing3=5,background=base_tone,foreground=normal_text,highlightthickness=0,insertbackground=normal_text,relief=tk.FLAT,borderwidth=0,font=code_font,selectbackground=base_tone)
+        #self.line_numbers.pack(side=tk.LEFT,fill=tk.Y,expand=1)
+        self.line_numbers.grid(row=0, column=0, sticky="ns")
+
+
+        # Configure grid weights to allow widgets to resize properly
+        self.codecanvas_frame.grid_rowconfigure(0, weight=1)
+        self.codecanvas_frame.grid_columnconfigure(1, weight=1)
+
+        # Test scollbar
+        self.sync_scrollbar= tk.Scrollbar(self.mainframe,orient=tk.VERTICAL,command=self.codecanvas.yview,bg=base_tone,highlightthickness=0,relief=tk.FLAT,troughcolor=base_bg,highlightcolor=base_bg,highlightbackground=mantle_bg,activebackground=base_bg,bd=0)
+        self.sync_scrollbar.pack(side=tk.RIGHT,fill=tk.Y)
+        self.sync_scrollbar.config(command=self.sync_scroll)
+        self.editor.config(yscrollcommand=self.update_scroll)
+        self.line_numbers.config(yscrollcommand=self.update_scroll)
+
+        # Canvas creation and configuration
+        # self.left_canvas = tk.Canvas(self.mainframe,width=5,background=base_tone,insertbackground=normal_text,highlightthickness=0,relief=tk.FLAT)
+        # self.left_canvas.pack(side=tk.LEFT,fill=tk.Y)
+        # self.right_canvas = tk.Canvas(self.mainframe,background=number)
+        # self.right_canvas.pack(side=tk.RIGHT,fill=tk.Y)
+
 
         # Scrollbar configuration
-        self.scrollbar = tk.Scrollbar(self.right_canvas,orient=tk.VERTICAL,command=self.sync_scrollbar,bg=base_tone,
-        highlightthickness=0,relief=tk.FLAT,troughcolor=base_bg,highlightcolor=base_bg
-        ,highlightbackground=mantle_bg,activebackground=base_bg,bd=0)
-        self.scrollbar.pack(side=tk.RIGHT,fill=tk.Y)
+        # self.scrollbar = tk.Scrollbar(self.right_canvas,orient=tk.VERTICAL,command=self.sync_scrollbar,bg=base_tone,
+        # highlightthickness=0,relief=tk.FLAT,troughcolor=base_bg,highlightcolor=base_bg
+        # ,highlightbackground=mantle_bg,activebackground=base_bg,bd=0)
+        # self.scrollbar.pack(side=tk.RIGHT,fill=tk.Y)
 
         # Attach scrollbar to both text widgets
-        self.editor.config(yscrollcommand=self.sync_scrollwheel)
-        self.line_numbers.config(yscrollcommand=self.sync_scrollwheel)
+        # self.editor.config(yscrollcommand=self.sync_scrollwheel)
+        # self.line_numbers.config(yscrollcommand=self.sync_scrollwheel)
 
         # Binds
         root.bind('<Control-r>', self.run_in_terminal)
         root.bind('<Control-a>', self.select_all)
         self.editor.bind('<KeyRelease>', self.syntax_update)
-        self.editor.bind('<KeyRelease>', self.update_line_numbers)
-        self.editor.bind('<ButtonPress>', self.update_line_numbers)
+        self.editor.bind('<KeyRelease>', self.line_numbers_update)
+        self.editor.bind('<ButtonPress>', self.line_numbers_update)
 
         # Run function
         self.syntax_update()
-        self.update_line_numbers()
+        self.line_numbers_update()
 
-    def update_line_numbers(self,event=None):
+        # self.codecanvas_frame.update_idletasks()  # Ensures the frame layout is updated
+        # self.codecanvas.config(scrollregion=self.codecanvas.bbox("all"))  # Updates the scroll region
+
+    def line_numbers_update(self,event=None):
         self.line_numbers.config(state=tk.NORMAL)
         self.line_numbers.delete('1.0',tk.END)
         current_text = self.editor.get('1.0', tk.END)
@@ -69,17 +96,27 @@ class TextEditor:
             self.line_numbers.insert(tk.END, f"{i+1}\n")
         self.line_numbers.config(state=tk.DISABLED)
 
-    def sync_scrollbar(self, *args):
-        if args:
-            self.editor.yview(*args)
-            self.line_numbers.yview(*args)
-        else:
-            self.editor.yview("moveto", self.scrollbar.get()[0])
-            self.line_numbers.yview("moveto", self.scrollbar.get()[0])
+    def sync_scroll(self, action, position, type=None):
+        self.editor.yview_moveto(position)
+        self.line_numbers.yview_moveto(position)
 
-    def sync_scrollwheel(self, *args):
-        self.scrollbar.set(*args)
-        self.sync_scrollbar()
+    def update_scroll(self, first, last, type=None):
+        self.editor.yview_moveto(first)
+        self.line_numbers.yview_moveto(first)
+        self.sync_scrollbar.set(first, last)
+
+#
+#    def sync_scrollbar(self, *args):
+#        if args:
+#            self.editor.yview(*args)
+#            self.line_numbers.yview(*args)
+#        else:
+#            self.editor.yview("moveto", self.scrollbar.get()[0])
+#            self.line_numbers.yview("moveto", self.scrollbar.get()[0])
+#
+#    def sync_scrollwheel(self, *args):
+#        self.scrollbar.set(*args)
+#        self.sync_scrollbar()
 
     def run_in_terminal(self,event=None):
         with open('run.py','w',encoding='utf-8') as f:
