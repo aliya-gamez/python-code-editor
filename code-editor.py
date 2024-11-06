@@ -62,8 +62,7 @@ class TextEditor:
 
     def update_line_numbers(self,event=None):
         self.line_numbers.config(state=tk.NORMAL)
-        self.line_numbers.delete('1.0',tk.END)        #if current_text2==self.previous_text:
-            #return
+        self.line_numbers.delete('1.0',tk.END)
         current_text = self.editor.get('1.0', tk.END)
         line_count = len(current_text.splitlines())
         for i in range(0, line_count):
@@ -87,18 +86,11 @@ class TextEditor:
             f.write(self.editor.get('1.0',tk.END))
         os.system("gnome-terminal -- bash -c 'python3 run.py; exit'")
 
-    # Check syntax_update made to the edtior
     def syntax_update(self,event=None):
         current_text = self.editor.get('1.0',tk.END)
-        # Checks if current content of editor is same as last saved content previous_text
-        #if current_text==self.previous_text:
-            #return
-        # Removes all text tags currently applied in editior (Clears existing syntax)
         for tag in self.editor.tag_names():
             self.editor.tag_remove(tag,'1.0','end')
-        # Nested for loop
         count = 0
-        # iterates over defined syntax regex, their patterns and colors assigned
         for pattern, color in syntax_patterns:
             for start, end in self.search_regex(pattern, current_text):
                 if color == comment:
@@ -111,29 +103,20 @@ class TextEditor:
                     self.editor.tag_add(f'{count}', start, end)
                     self.editor.tag_config(f'{count}', foreground=color, font=code_font)
                 count+=1
-        # Update 
         self.previous_text = current_text 
 
     def search_regex(self, pattern, text):
         matches = []
-        #self.line_count = 0
         text = text.splitlines()
-        #self.line_count = len(text)
-        #self.update_line_numbers(self.line_count)
         for i, line in enumerate(text):
             for match in re.finditer(pattern,line):
                 matches.append((f"{i + 1}.{match.start()}", f"{i + 1}.{match.end()}"))
         return matches
 
-    # Select all rules function
     def select_all(self, event=None):
         self.editor.tag_configure('selected',background=select_background)
         self.editor.tag_add('selected','1.0',tk.END)
         return "break"
-
-#    def tab_spaces(self, event=None):
-#        self.editor.insert('    ')
-
 
 if __name__=="__main__":
     root = tk.Tk() # Main window
