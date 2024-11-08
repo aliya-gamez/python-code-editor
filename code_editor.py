@@ -5,12 +5,8 @@ import re
 import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import asksaveasfilename, askopenfilename
-from editor_styling import *
-from syntax_patterns import syntax_patterns
-
-class EditorStyling:
-    def __init__(self,*args,**kwargs):
-        self.
+from editor_styling import EditorStyling
+from editor_styling import EditorSyntax
 
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
