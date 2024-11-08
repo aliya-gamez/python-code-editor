@@ -1,1 +1,0 @@
-# syntax_patterns.py
