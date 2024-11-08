@@ -1,2 +1,3 @@
 .venv
-old/
+old
+__pycache__
