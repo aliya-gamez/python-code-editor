@@ -1,3 +1,5 @@
+# code_editor.py (MAIN) old
+
 import os
 import re
 import tkinter as tk
