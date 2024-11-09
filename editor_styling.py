@@ -1,9 +1,17 @@
 # editor_styling.py
 
+import tkinter as tk
+from tkinter import ttk
+
 class EditorStyling:
-    def __init__(self, styling):
+    def __init__(self,editor,vsb,hsb):
+        self.editor = editor
+        self.vsb = vsb
+        self.hsb = hsb
+
+        ###### Syntax colors ######
         # Code editor font
-        self.font = ('JetBrains Mono', 11, 'normal')
+        self.font = ('JetBrains Mono',11,tk.NORMAL)
         self.font_em = ('JetBrains Mono', 11, 'italic')
         # Code editor colors
         self.normal_text = '#c6cac7'
@@ -36,7 +44,64 @@ class EditorStyling:
         self.colon_punctuation = '#93b293'
         self.curlybracket_inside = '#c7cac6'
         self.self_keyword = '#f38ba8' #red
-    
+        ###### Syntax colors END ######
+
+        # Call function 
+        self.apply_styles()
+
+    def apply_styles(self):
+        style = ttk.Style()
+        style.layout(
+            'arrowless.Vertical.TScrollbar',[
+            ('Vertical.Scrollbar.trough', {
+                'children': [('Vertical.Scrollbar.thumb', {'expand': '1', 'sticky': 'nswe'})],
+                'sticky': 'ns'
+            })
+        ])
+        style.layout('arrowless.Horizontal.TScrollbar', [
+            ('Horizontal.Scrollbar.trough', {
+                'children': [('Horizontal.Scrollbar.thumb', {'expand': '1', 'sticky': 'we'})],
+                'sticky': 'we'
+            })
+        ])
+
+        # Text widget styling
+        self.editor.configure(
+            font=self.font,
+            background=self.base_bg,
+            foreground=self.normal_text,
+            insertbackground=self.normal_text,
+            highlightthickness=0,
+            relief=tk.FLAT,
+            spacing3=5
+        )
+        self.vsb.configure(
+            background=self.tone_0,
+            troughcolor=self.base_bg,
+            highlightcolor=self.base_bg,
+            highlightbackground=self.mantle_bg,
+            activebackground=self.base_bg,
+            highlightthickness=0,
+            borderwidth=0,
+            bd=0,
+            relief=tk.FLAT
+        )
+        self.hsb.configure(
+            background=self.tone_0,
+            troughcolor=self.base_bg,
+            highlightcolor=self.base_bg,
+            highlightbackground=self.mantle_bg,
+            activebackground=self.base_bg,
+            highlightthickness=0,
+            borderwidth=0,
+            bd=0,
+            relief=tk.FLAT
+        )
+
+        # Apply styles to vertical and horizontal scrollbars
+        self.vsb.configure(style='arrowless.Vertical.TScrollbar')
+        self.hsb.configure(style='arrowless.Horizontal.TScrollbar')
+        
 class EditorSyntax:
     def __init__(self,styling):
         self.styling = styling
@@ -62,7 +127,7 @@ class EditorSyntax:
             [r'(\'#([A-Fa-f0-9]{6})\'|\"#([A-Fa-f0-9]{6})\")', self.hexcode], 
             [r'\bself\b', self.self_keyword],
         ]
-    def apply_syntax_highlighting(self):
+    # def apply_syntax_highlighting(self):
         #for pattern, color in syntax_patterns:
         #    for start, end in self.search_regex(pattern, current_text):
         #        if color == comment:
@@ -76,7 +141,7 @@ class EditorSyntax:
         #            self.editor.tag_config(f'{count}', foreground=color, font=code_font)
         #self.previous_text = current_text 
 
-    def search_regex(self,pattern, ext):
+    # def search_regex(self,pattern, ext):
         #matches = []
         #text = text.splitlines()
         #for i, line in enumerate(text):
