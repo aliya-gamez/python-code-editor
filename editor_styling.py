@@ -51,6 +51,19 @@ class EditorStyling:
 
     def apply_styles(self):
         style = ttk.Style()
+
+        # Text widget styling
+        self.editor.configure(
+            font=self.font,
+            background=self.base_bg,
+            foreground=self.normal_text,
+            insertbackground=self.normal_text,
+            highlightthickness=0,
+            relief=tk.FLAT,
+            spacing3=5
+        )
+
+        # Scrollbar layout and styling
         style.layout(
             'arrowless.Vertical.TScrollbar',[
             ('Vertical.Scrollbar.trough', {
@@ -64,18 +77,8 @@ class EditorStyling:
                 'sticky': 'we'
             })
         ])
-
-        # Text widget styling
-        self.editor.configure(
-            font=self.font,
-            background=self.base_bg,
-            foreground=self.normal_text,
-            insertbackground=self.normal_text,
-            highlightthickness=0,
-            relief=tk.FLAT,
-            spacing3=5
-        )
-        self.vsb.configure(
+        style.configure(
+            'arrowless.Vertical.TScrollbar',
             background=self.tone_0,
             troughcolor=self.base_bg,
             highlightcolor=self.base_bg,
@@ -86,21 +89,23 @@ class EditorStyling:
             bd=0,
             relief=tk.FLAT
         )
-        self.hsb.configure(
+        style.configure(
+            'arrowless.Horizontal.TScrollbar',
             background=self.tone_0,
             troughcolor=self.base_bg,
             highlightcolor=self.base_bg,
             highlightbackground=self.mantle_bg,
             activebackground=self.base_bg,
             highlightthickness=0,
+            
             borderwidth=0,
             bd=0,
             relief=tk.FLAT
         )
 
         # Apply styles to vertical and horizontal scrollbars
-        self.vsb.configure(style='arrowless.Vertical.TScrollbar')
-        self.hsb.configure(style='arrowless.Horizontal.TScrollbar')
+        self.vsb.configure(style='arrowless.Vertical.TScrollbar',)
+        #self.hsb.configure(style='arrowless.Horizontal.TScrollbar')
         
 class EditorSyntax:
     def __init__(self,styling):

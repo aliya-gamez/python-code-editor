@@ -13,11 +13,11 @@ class CodeEditor(tk.Frame):
         self.editor = tk.Text(self,wrap=tk.NONE)
 
         # Vertical Scrollbar
-        self.vsb = tk.Scrollbar(self,orient=tk.VERTICAL,command=self.editor.yview)
+        self.vsb = ttk.Scrollbar(self,orient=tk.VERTICAL,command=self.editor.yview)
         self.editor.configure(yscrollcommand=self.vsb.set)
 
         # Horizontal Scrollbar (not working)
-        self.hsb = tk.Scrollbar(self,orient=tk.HORIZONTAL,command=self.editor.xview)
+        self.hsb = ttk.Scrollbar(self,orient=tk.HORIZONTAL,command=self.editor.xview)
         self.editor.configure(xscrollcommand=self.hsb.set)
 
         # Pass to EditorStyling
@@ -25,7 +25,7 @@ class CodeEditor(tk.Frame):
         
         # Pack Widget
         self.vsb.pack(side=tk.RIGHT,fill=tk.Y)
-        self.hsb.pack(side=tk.BOTTOM,fill=tk.X)
+        #self.hsb.pack(side=tk.BOTTOM,fill=tk.X)
         self.editor.pack(side=tk.RIGHT,fill=tk.BOTH)
 
 class MainApp:
