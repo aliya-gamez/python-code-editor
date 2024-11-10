@@ -28,11 +28,11 @@ class CodeEditor(tk.Frame):
         self.editor = tk.Text(self,wrap=tk.NONE)
 
         # Vertical Scrollbar
-        self.vsb = AutoHideScrollbar(self,orient=tk.VERTICAL,command=self.editor.yview)
+        self.vsb = ttk.Scrollbar(self,orient=tk.VERTICAL,command=self.editor.yview)
         self.editor.configure(yscrollcommand=self.vsb.set)
 
         # Horizontal Scrollbar (not working)
-        self.hsb = AutoHideScrollbar(self,orient=tk.HORIZONTAL,command=self.editor.xview)
+        self.hsb = ttk.Scrollbar(self,orient=tk.HORIZONTAL,command=self.editor.xview)
         self.editor.configure(xscrollcommand=self.hsb.set)
 
         # Pass to EditorStyling
@@ -42,6 +42,13 @@ class CodeEditor(tk.Frame):
         #self.vsb.pack(side=tk.RIGHT,fill=tk.Y)
         #self.hsb.pack(side=tk.BOTTOM,fill=tk.X)
         #self.editor.pack(side=tk.RIGHT,fill=tk.BOTH,expand=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=0)
+
+        self.editor.grid(row=0,column=0,sticky='nsew')
+        self.vsb.grid(row=0,column=1,rowspan=2,sticky='nsew')
+        self.hsb.grid(row=1,column=0,sticky='nsew')
     
 
 class MainApp:
@@ -55,7 +62,7 @@ class MainApp:
 
         self.code_editor = CodeEditor(self.root)
 
-        #self.code_editor.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
+        self.code_editor.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
     def program_run(self):
         self.root.mainloop()
 

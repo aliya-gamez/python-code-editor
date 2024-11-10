@@ -63,46 +63,61 @@ class EditorStyling:
             spacing3=5
         )
 
+        print(style.layout('Vertical.TScrollbar'))
+
         # Scrollbar layout and styling
         style.layout(
             'arrowless.Vertical.TScrollbar',[
-            ('Vertical.Scrollbar.trough', {
-                'children': [('Vertical.Scrollbar.thumb', {'expand': '1', 'sticky': 'nswe'})],
-                'sticky': 'ns'
+            ('Vertical.Scrollbar.trough',{
+                'children':[('Vertical.Scrollbar.thumb',{'expand':'1','sticky':'nswe'})],
+                'sticky':'ns'
             })
         ])
-        style.layout('arrowless.Horizontal.TScrollbar', [
-            ('Horizontal.Scrollbar.trough', {
-                'children': [('Horizontal.Scrollbar.thumb', {'expand': '1', 'sticky': 'we'})],
+
+        style.layout(
+            'no_arrow.Vertical.TScrollBar',[
+                ('Vertical.Scrollbar.trough',{
+                    'sticky': 'ns',
+                    'children':[
+                        ('Vertical.Scrollbar.uparrow', {
+                            'side':'top',
+                            'sticky': ''
+                        }),
+                        ('Vertical.Scrollbar.downarrow',{
+                            'side':'bottom',
+                            'sticky':''
+                        }),
+                        ('Vertical.Scrollbar.thumb',{
+                            'sticky': 'nswe'
+                        })
+                    ]
+                })
+        ])
+
+
+        style.layout('arrowless.Horizontal.TScrollbar',[
+            ('Horizontal.Scrollbar.trough',{
+                'children': [('Horizontal.Scrollbar.thumb',{'expand':'1','sticky':'we'})],
                 'sticky': 'we'
             })
         ])
         style.configure(
-            'arrowless.Vertical.TScrollbar',
+            'no_arrow.Vertical.TScrollbar',
             background=self.tone_0,
             troughcolor=self.base_bg,
-            highlightcolor=self.base_bg,
-            highlightbackground=self.mantle_bg,
             activebackground=self.base_bg,
-            highlightthickness=0,
+            activerelief=self.base_bg,
             borderwidth=0,
-            bd=0,
-            relief=tk.FLAT
         )
         style.configure(
             'arrowless.Horizontal.TScrollbar',
             background=self.tone_0,
             troughcolor=self.base_bg,
-            highlightcolor=self.base_bg,
-            highlightbackground=self.mantle_bg,
             activebackground=self.base_bg,
-            highlightthickness=0,
             borderwidth=0,
-            bd=0,
-            relief=tk.FLAT
         )
         # Apply styles to vertical and horizontal scrollbars
-        self.vsb.configure(style='arrowless.Vertical.TScrollbar',)
+        self.vsb.configure(style='no_arrow.Vertical.TScrollbar',)
         self.hsb.configure(style='arrowless.Horizontal.TScrollbar')
         
 class EditorSyntax:
