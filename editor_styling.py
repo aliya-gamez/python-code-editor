@@ -97,15 +97,13 @@ class EditorStyling:
             highlightbackground=self.mantle_bg,
             activebackground=self.base_bg,
             highlightthickness=0,
-            
             borderwidth=0,
             bd=0,
             relief=tk.FLAT
         )
-
         # Apply styles to vertical and horizontal scrollbars
         self.vsb.configure(style='arrowless.Vertical.TScrollbar',)
-        #self.hsb.configure(style='arrowless.Horizontal.TScrollbar')
+        self.hsb.configure(style='arrowless.Horizontal.TScrollbar')
         
 class EditorSyntax:
     def __init__(self,styling):
