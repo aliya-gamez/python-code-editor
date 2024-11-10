@@ -39,9 +39,9 @@ class CodeEditor(tk.Frame):
         self.styling = EditorStyling(self.editor,self.vsb,self.hsb)
         
         # Pack Widget
-        self.vsb.pack(side=tk.RIGHT,fill=tk.Y)
-        self.hsb.pack(side=tk.BOTTOM,fill=tk.X)
-        self.editor.pack(side=tk.RIGHT,fill=tk.BOTH,expand=1)
+        #self.vsb.pack(side=tk.RIGHT,fill=tk.Y)
+        #self.hsb.pack(side=tk.BOTTOM,fill=tk.X)
+        #self.editor.pack(side=tk.RIGHT,fill=tk.BOTH,expand=1)
     
 
 class MainApp:
@@ -55,7 +55,7 @@ class MainApp:
 
         self.code_editor = CodeEditor(self.root)
 
-        self.code_editor.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
+        #self.code_editor.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
     def program_run(self):
         self.root.mainloop()
 
