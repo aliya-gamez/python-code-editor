@@ -71,21 +71,22 @@ class EditorStyling:
             elif widget_name=='linenumbers':
                 widget_obj.configure(
                     font=self.font,
-                    background=self.base_1,
+                    background=self.base_2,
                     foreground=self.normal_text,
                     selectbackground=self.tone_0,
                     selectforeground=self.normal_text,
                     insertbackground=self.normal_text,
                     highlightthickness=0,
                     relief=tk.FLAT,
-                    spacing3=5
+                    spacing3=5,
+                    width=7
                 )
             elif widget_name=='vsb': # Vertical Scrollbar
                 # Layout to remove arrows
                 style.layout('noarrow.Vertical.TScrollbar',[('Vertical.Scrollbar.trough',{'sticky':'ns','children':[('Vertical.Scrollbar.thumb',{'sticky':'nswe','expand':'1'})]})])
                 style.configure(
                     'noarrow.Vertical.TScrollbar',
-                    background=self.tone_0,
+                    background=self.tone_1,
                     troughcolor=self.base_1,
                     borderwidth=0,
                     width=14
@@ -97,7 +98,7 @@ class EditorStyling:
                 style.layout('noarrow.Horizontal.TScrollbar',[('Horizontal.Scrollbar.trough',{'sticky':'we','children':[('Horizontal.Scrollbar.thumb',{'sticky':'nswe','expand':'1'})]})])
                 style.configure(
                     'noarrow.Horizontal.TScrollbar',
-                    background=self.tone_0,
+                    background=self.tone_1,
                     troughcolor=self.base_0,
                     borderwidth=0,
                     width=14
@@ -107,7 +108,7 @@ class EditorStyling:
             else:
                 return "break"
    
-class EditorSyntax():
+class EditorSyntax:
     def __init__(self,editor,styling:EditorStyling):
         self.editor = editor
         self.styling = styling
