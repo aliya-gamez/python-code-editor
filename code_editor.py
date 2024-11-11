@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from editor_styling import EditorStyling
+from editor_styling import EditorSyntax
 
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
@@ -22,6 +23,7 @@ class CodeEditor(tk.Frame):
 
         # Pass to EditorStyling
         self.styling = EditorStyling(self.editor,self.vsb,self.hsb)
+        self.syntax = EditorSyntax(self.editor,self.vsb,self.hsb)
         
         # Pack Widget
         #self.vsb.pack(side=tk.RIGHT,fill=tk.Y)
@@ -31,7 +33,7 @@ class CodeEditor(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=0)
 
-        self.editor.grid(row=0,column=0,sticky='nsew')
+        self.editor.grid(row=0,column=0,padx=5,pady=5,sticky='nsew')
         self.vsb.grid(row=0,column=1,rowspan=2,sticky='nsew')
         self.hsb.grid(row=1,column=0,sticky='nsew')
     

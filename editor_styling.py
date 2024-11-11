@@ -2,6 +2,7 @@
 
 import tkinter as tk
 from tkinter import ttk
+import re
 
 class EditorStyling:
     def __init__(self,editor,vsb,hsb):
@@ -18,12 +19,12 @@ class EditorStyling:
         self.tint_2 = '#cac6c8'
         self.tint_1 = '#958d92'
         self.tint_0 = '#5f545c'
-        self.tone_1 = '#554d4e' # Zeus lightest
+        self.tone_2 = '#554d4e' # Zeus lightest
         self.tone_1 = '#4a4142' # Zeus lighter
         self.tone_0 = '#3f3436' # Zeus light
-        self.base_bg = '#2a1b25' # MAIN COLOR - Zeus
-        self.mantle_bg = '#251820' # Zeus dark
-        self.crust_bg = '#1f141c' # Zeus darker
+        self.base_1 = '#2a1b25' # MAIN COLOR - Zeus
+        self.base_2 = '#251820' # Zeus dark
+        self.base_3 = '#1f141c' # Zeus darker
         # Code editor generic syntax colors
         self.keyword = '#cba6f7' #muave
         self.punctuation = '#f38ba8' #red
@@ -55,7 +56,7 @@ class EditorStyling:
         # Text widget styling
         self.editor.configure(
             font=self.font,
-            background=self.base_bg,
+            background=self.base_1,
             foreground=self.normal_text,
             insertbackground=self.normal_text,
             highlightthickness=0,
@@ -91,33 +92,33 @@ class EditorStyling:
         style.configure(
             'noarrow.Vertical.TScrollbar',
             background=self.tone_0,
-            troughcolor=self.base_bg,
+            troughcolor=self.base_2,
             borderwidth=0,
             width=10
         )
-        style.map('noarrow.Vertical.TScrollbar',background=[('disabled',self.base_bg)])
+        style.map('noarrow.Vertical.TScrollbar',background=[('disabled',self.base_1)])
         style.configure(
             'noarrow.Horizontal.TScrollbar',
             background=self.tone_0,
-            troughcolor=self.base_bg,
+            troughcolor=self.base_1,
             borderwidth=0,
             width=10
         )
-        style.map('noarrow.Horizontal.TScrollbar',
-            background=[('disabled',self.base_bg),]
-        )
+        style.map('noarrow.Horizontal.TScrollbar',background=[('disabled',self.base_1)])
         # Apply styles to vertical and horizontal scrollbars
         self.vsb.configure(style='noarrow.Vertical.TScrollbar',)
         self.hsb.configure(style='noarrow.Horizontal.TScrollbar')
         
-class EditorSyntax:
-    def __init__(self,styling):
-        self.styling = styling
+class EditorSyntax(EditorStyling):
+    def __init__(self,editor,vsb,hsb):
+        super().__init__(editor,vsb,hsb)
+        self.last_recorded_text = ''
+        self.editor = editor
         # Syntax highlighting regex [regex, color]
-        self.syntax_patterns = [ 
+        self.regex_pattern_colors = [ 
             [r'def\s+\w+\(([^)]*)\)', self.parameter],
             [r'\b(?:True|False|None|[A-Z][A-Z_0-9]*)\b', self.constant],
-            [r'\b(?:def|if|else|elif|while|pass|for|break|continue|return|import|from|as|try|except|raise|with|lambda|async|await|global|nonlocal|in|is|not|and|or|True|False|None)\b', keyword],
+            [r'\b(?:def|if|else|elif|while|pass|for|break|continue|return|import|from|as|try|except|raise|with|lambda|async|await|global|nonlocal|in|is|not|and|or|True|False|None)\b', self.keyword],
             [r'\bclass\s+([A-Za-z_][\w]*)\b', self.class_name],
             [r'\bclass\b', self.keyword],
             [r'(\".*?\"|\'.*?\'|\"\"\".*?\"\"\"|\'\'\'.*?\'\'\')', self.string],
@@ -135,24 +136,29 @@ class EditorSyntax:
             [r'(\'#([A-Fa-f0-9]{6})\'|\"#([A-Fa-f0-9]{6})\")', self.hexcode], 
             [r'\bself\b', self.self_keyword],
         ]
-    # def apply_syntax_highlighting(self):
-        #for pattern, color in syntax_patterns:
-        #    for start, end in self.search_regex(pattern, current_text):
-        #        if color == comment:
-        #           self.editor.tag_add('comment', start, end)
-        #            self.editor.tag_config('comment',foreground=color,font=code_font_em)
-        #        elif color == self_keyword:
-        #            self.editor.tag_add('self_keyword', start, end)
-        #            self.editor.tag_config('self_keyword',foreground=color,font=code_font_em)
-        #        else:
-        #            self.editor.tag_add(f'{count}', start, end)
-        #            self.editor.tag_config(f'{count}', foreground=color, font=code_font)
-        #self.previous_text = current_text 
+        self.apply_syntax_highlighting()
 
-    # def search_regex(self,pattern, ext):
-        #matches = []
-        #text = text.splitlines()
-        #for i, line in enumerate(text):
-        #    for match in re.finditer(pattern,line):
-        #        matches.append((f"{i + 1}.{match.start()}", f"{i + 1}.{match.end()}"))
-        #return matches
+    def apply_syntax_highlighting(self):
+        self.current_text = self.editor.get('1.0',tk.END)
+        count = 0
+        for pattern,color in self.regex_pattern_colors:
+            for start,end in self.search_regex(pattern,self.current_text):
+                if color == self.comment:
+                    self.editor.tag_add('comment',start,end)
+                    self.editor.tag_config('comment',foreground=color,font=self.code_font_em)
+                elif color == self.self_keyword:
+                    self.editor.tag_add('self_keyword',start, end)
+                    self.editor.tag_config('self_keyword',foreground=color,font=self.code_font_em)
+                else:
+                    self.editor.tag_add(f'{count}',start,end)
+                    self.editor.tag_config(f'{count}',foreground=color,font=self.code_font)
+                count+=1
+        self.last_recorded_text = self.current_text 
+
+    def search_regex(self,pattern,text):
+        matches = []
+        text = text.splitlines()
+        for i, line in enumerate(text):
+            for match in re.finditer(pattern,line):
+                matches.append((f"{i + 1}.{match.start()}", f"{i + 1}.{match.end()}"))
+        return matches
