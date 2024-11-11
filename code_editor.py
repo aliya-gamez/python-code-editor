@@ -21,39 +21,57 @@ class CodeEditor(tk.Frame):
         self.hsb = ttk.Scrollbar(self,orient=tk.HORIZONTAL,command=self.editor.xview)
         self.editor.configure(xscrollcommand=self.hsb.set)
 
-        # Pass to EditorStyling
-        self.styling = EditorStyling(self.editor,self.vsb,self.hsb)
-        self.syntax = EditorSyntax(self.editor,self.vsb,self.hsb)
+        # Pass to EditorStyling for styling and syntax
+        self.styling = EditorStyling(editor=self.editor,vsb=self.vsb,hsb=self.hsb)
+        self.syntax = EditorSyntax(self.editor,self.styling)
         
-        # Pack Widget
-        #self.vsb.pack(side=tk.RIGHT,fill=tk.Y)
-        #self.hsb.pack(side=tk.BOTTOM,fill=tk.X)
-        #self.editor.pack(side=tk.RIGHT,fill=tk.BOTH,expand=1)
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=0)
-
-        self.editor.grid(row=0,column=0,padx=5,pady=5,sticky='nsew')
+        # Place component on grid
+        self.editor.grid(row=0,column=0,padx=(0,10),sticky='nsew')
         self.vsb.grid(row=0,column=1,rowspan=2,sticky='nsew')
-        self.hsb.grid(row=1,column=0,sticky='nsew')
-    
+        self.hsb.grid(row=1,column=0,sticky='nswe')
+
+        # Configure grid weights for proper resizing
+        self.grid_rowconfigure(0,weight=1)
+        self.grid_rowconfigure(1,weight=0,minsize=14)
+        self.grid_columnconfigure(0,weight=1)
+        self.grid_columnconfigure(1,weight=0)
+
+        self.editor.bind_class('Text','<Control-Key-a>',self.select_all)
+
+        # Set focus
+        self.editor.focus_set()
+
+    def select_all(self,event=None):
+        self.editor.tag_add(tk.SEL,'1.0',tk.END)
+        self.editor.mark_set(tk.INSERT,'1.0')
+        self.editor.see(tk.INSERT)
+        return 'break'
 
 class MainApp:
     def __init__(self):
-        # Main window configuration
         self.root = tk.Tk()
+
+        # Main window configuration
         self.root.title("Python Code Editor")
         screen_width = self.root.winfo_screenwidth() 
         screen_height = self.root.winfo_screenheight()
-        self.root.geometry(f'{screen_width//2}x{screen_height}+0+0')
+        self.root.geometry(f'{screen_width//2}x{screen_height}+0+0') # Window opens 'tiled' to the left
 
-        self.code_editor = CodeEditor(self.root)
+        # Initialize code editor component within main window
+        self.code_editor_frame = CodeEditor(self.root)
 
-        self.code_editor.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
-    def program_run(self):
+        # Pass to EditorStyling for styling and syntax
+        self.styling = EditorStyling(code_editor_frame=self.code_editor_frame)
+
+        # Place component on grid
+        self.code_editor_frame.grid(row=0,column=0,sticky='nsew')
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
+
+    def program_run(self): # Runs program (make more readable)
         self.root.mainloop()
 
-if __name__=="__main__":
+if __name__=='__main__': # Initializes main application that creates root window and then mainframe
     app = MainApp()
     app.program_run()
 
