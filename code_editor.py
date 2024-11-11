@@ -7,21 +7,6 @@ from tkinter import ttk
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from editor_styling import EditorStyling
 
-class AutoHideScrollbar(ttk.Scrollbar):
-    def __init__(self,*args,**kwargs):
-        super().__init__(*args,**kwargs)
-        self.auto_hide()
-
-    def auto_hide(self):
-        self.bind("<Visibility>", self.check_visibility)
-        self.after(100, self.check_visibility)
-
-    def check_visibility(self, *args):
-        if self.get() == (0.0, 1.0):
-            self.grid_remove()
-        else:
-            self.grid()
-
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)

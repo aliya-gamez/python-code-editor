@@ -63,62 +63,52 @@ class EditorStyling:
             spacing3=5
         )
 
-        print(style.layout('Vertical.TScrollbar'))
-
-        # Scrollbar layout and styling
+        # Scrollbar layout and styling to match theme and remove arrows
         style.layout(
-            'arrowless.Vertical.TScrollbar',[
-            ('Vertical.Scrollbar.trough',{
-                'children':[('Vertical.Scrollbar.thumb',{'expand':'1','sticky':'nswe'})],
-                'sticky':'ns'
-            })
-        ])
-
-        style.layout(
-            'no_arrow.Vertical.TScrollBar',[
+            'noarrow.Vertical.TScrollbar',[
                 ('Vertical.Scrollbar.trough',{
-                    'sticky': 'ns',
+                    'sticky':'ns',
                     'children':[
-                        ('Vertical.Scrollbar.uparrow', {
-                            'side':'top',
-                            'sticky': ''
-                        }),
-                        ('Vertical.Scrollbar.downarrow',{
-                            'side':'bottom',
-                            'sticky':''
-                        }),
                         ('Vertical.Scrollbar.thumb',{
-                            'sticky': 'nswe'
+                            'sticky':'nswe',
+                            'expand':'1'
                         })
                     ]
                 })
         ])
-
-
-        style.layout('arrowless.Horizontal.TScrollbar',[
-            ('Horizontal.Scrollbar.trough',{
-                'children': [('Horizontal.Scrollbar.thumb',{'expand':'1','sticky':'we'})],
-                'sticky': 'we'
-            })
+        style.layout(
+            'noarrow.Horizontal.TScrollbar',[
+                ('Horizontal.Scrollbar.trough',{
+                    'sticky':'we',
+                    'children':[
+                        ('Horizontal.Scrollbar.thumb',{
+                            'sticky':'nswe',
+                            'expand':'1'
+                        })
+                    ]
+                })
         ])
         style.configure(
-            'no_arrow.Vertical.TScrollbar',
+            'noarrow.Vertical.TScrollbar',
             background=self.tone_0,
             troughcolor=self.base_bg,
-            activebackground=self.base_bg,
-            activerelief=self.base_bg,
             borderwidth=0,
+            width=10
         )
+        style.map('noarrow.Vertical.TScrollbar',background=[('disabled',self.base_bg)])
         style.configure(
-            'arrowless.Horizontal.TScrollbar',
+            'noarrow.Horizontal.TScrollbar',
             background=self.tone_0,
             troughcolor=self.base_bg,
-            activebackground=self.base_bg,
             borderwidth=0,
+            width=10
+        )
+        style.map('noarrow.Horizontal.TScrollbar',
+            background=[('disabled',self.base_bg),]
         )
         # Apply styles to vertical and horizontal scrollbars
-        self.vsb.configure(style='no_arrow.Vertical.TScrollbar',)
-        self.hsb.configure(style='arrowless.Horizontal.TScrollbar')
+        self.vsb.configure(style='noarrow.Vertical.TScrollbar',)
+        self.hsb.configure(style='noarrow.Horizontal.TScrollbar')
         
 class EditorSyntax:
     def __init__(self,styling):
