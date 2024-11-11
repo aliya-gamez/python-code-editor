@@ -8,6 +8,15 @@ from tkinter.filedialog import asksaveasfilename, askopenfilename
 from editor_styling import EditorStyling
 from editor_styling import EditorSyntax
 
+class TextLineNumbers(tk.Frame):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.linenumbers = tk.Text(self,width=4)
+
+        self.styling = EditorStyling()
+        self.syntax = EditorSyntax(linenumbers=self.linenumbers)
+
+
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)

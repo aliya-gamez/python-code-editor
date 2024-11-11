@@ -68,6 +68,18 @@ class EditorStyling:
                     relief=tk.FLAT,
                     spacing3=5
                 )
+            elif widget_name=='linenumbers':
+                widget_obj.configure(
+                    font=self.font,
+                    background=self.base_1,
+                    foreground=self.normal_text,
+                    selectbackground=self.tone_0,
+                    selectforeground=self.normal_text,
+                    insertbackground=self.normal_text,
+                    highlightthickness=0,
+                    relief=tk.FLAT,
+                    spacing3=5
+                )
             elif widget_name=='vsb': # Vertical Scrollbar
                 # Layout to remove arrows
                 style.layout('noarrow.Vertical.TScrollbar',[('Vertical.Scrollbar.trough',{'sticky':'ns','children':[('Vertical.Scrollbar.thumb',{'sticky':'nswe','expand':'1'})]})])
