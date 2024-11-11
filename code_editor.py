@@ -22,8 +22,9 @@ class TextLineNumbers(tk.Text):
         self.linenumbers.delete('1.0',tk.END)
         current_text = self.editor.get('1.0', tk.END)
         line_count = len(current_text.splitlines())
+        self.tag_configure('right',justify='right')
         for i in range(0, line_count):
-            self.linenumbers.insert(tk.END, f"{i+1}\n")
+            self.linenumbers.insert(tk.END, f'{i+1}  \n','right')
         self.linenumbers.config(state=tk.DISABLED)
 
         
@@ -52,7 +53,7 @@ class CodeEditor(tk.Frame):
         
         # Place component on grid
         self.linenumbers.grid(row=0,column=0,rowspan=2,sticky='ns')
-        self.editor.grid(row=0,column=1,padx=(0,10),sticky='nsew')
+        self.editor.grid(row=0,column=1,padx=(10,10),sticky='nsew')
         self.vsb.grid(row=0,column=2,rowspan=2,sticky='nsew')
         self.hsb.grid(row=1,column=1,sticky='nswe')
 
@@ -76,6 +77,7 @@ class CodeEditor(tk.Frame):
 
         #Run function initially
         self.linenumbers.update_line_numbers(self.linenumbers)
+        self.syntax.apply_syntax_highlighting()
 
     def select_all(self,event=None):
         self.editor.tag_add(tk.SEL,'1.0',tk.END)
@@ -85,6 +87,7 @@ class CodeEditor(tk.Frame):
 
     def on_event(self,event):
         self.linenumbers.update_line_numbers(self.linenumbers)
+        self.syntax.apply_syntax_highlighting()
 
 class MainApp:
     def __init__(self):

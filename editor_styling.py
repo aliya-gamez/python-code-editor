@@ -137,9 +137,6 @@ class EditorSyntax:
             [r'\bself\b', self.styling.self_keyword],
         ]
 
-        self.editor.bind('<KeyRelease>',self.apply_syntax_highlighting)
-        self.apply_syntax_highlighting()
-
     def apply_syntax_highlighting(self,Event=tk.NONE):
         self.current_text = self.editor.get('1.0',tk.END)
         count = 0
