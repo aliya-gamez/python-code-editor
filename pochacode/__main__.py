@@ -10,7 +10,7 @@ class MainApp:
         self.root = tk.Tk()
 
         # Main window configuration
-        self.root.title("Python Code Editor")
+        self.root.title("PochaCode: Python Editor")
         screen_width = self.root.winfo_screenwidth() 
         screen_height = self.root.winfo_screenheight()
         self.root.geometry(f'600x400+{screen_width//11}+{(screen_height//4)+10}')
