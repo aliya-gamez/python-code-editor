@@ -5,12 +5,12 @@ from tkinter import ttk
 import re
 
 class EditorStyling:
-    def __init__(self,*args,**widgets):
-        self.widgets = widgets
+    def __init__(self,*args,**widgetlist):
+        self._widgets = widgetlist
 
         # Styling fonts
         self.font = ('JetBrains Mono',11,tk.NORMAL)
-        self.font_em = ('JetBrains Mono', 11, 'italic')
+        self.font_em = ('JetBrains Mono',11,'italic')
         # Styling colors
         self.normal_text = '#c6cac7'
         self.tint_2 = '#cac6c8' # tint lightest
@@ -45,16 +45,19 @@ class EditorStyling:
         self.self_keyword = '#f38ba8'   #red
 
         # Call function 
-        self.apply_styles()
+        self._apply_styles()
 
-    def apply_styles(self):
+    def _apply_styles(self):
         style = ttk.Style()
 
         # Iterate over key and value for specific styling
-        for widget_name,widget_obj in self.widgets.items():
+        for widget_name,widget_obj in self._widgets.items():
             if widget_name=='code_editor_frame':
                 widget_obj.configure(
-                    background=self.base_0
+                    background=self.base_0,
+                    highlightthickness=2,
+                    highlightcolor=self.base_2,
+                    highlightbackground=self.tone_2
                 )
             elif widget_name=='editor': # Main Editor
                 widget_obj.configure(
@@ -66,11 +69,13 @@ class EditorStyling:
                     insertbackground=self.normal_text,
                     highlightthickness=0,
                     relief=tk.FLAT,
+                    spacing1=0,
+                    spacing2=0,
                     spacing3=5
                 )
             elif widget_name=='linenumbers':
                 widget_obj.configure(
-                    font=self.font,
+                    font=self.font_em,
                     background=self.base_2,
                     foreground=self.normal_text,
                     selectbackground=self.tone_0,
@@ -78,8 +83,10 @@ class EditorStyling:
                     insertbackground=self.normal_text,
                     highlightthickness=0,
                     relief=tk.FLAT,
+                    spacing1=0,
+                    spacing2=0,
                     spacing3=5,
-                    width=7
+                    width=6
                 )
             elif widget_name=='vsb': # Vertical Scrollbar
                 # Layout to remove arrows

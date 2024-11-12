@@ -8,6 +8,26 @@ from tkinter.filedialog import asksaveasfilename, askopenfilename
 from editor_styling import EditorStyling
 from editor_styling import EditorSyntax
 
+class SyncedScrollbar(ttk.Scrollbar):
+    def __init__(self,parent,**widgetlist):
+        self._widgets = [widget for widget in widgetlist.values() if hasattr(widget,'yview')]
+        super().__init__(parent,command=self._on_scrollbar)
+
+        #for widget in self._widgets:
+        #    widget['yscrollcommand'] = self._on_textscroll
+        self.editor = self._widgets[0]
+        self.editor['yscrollcommand'] = self._on_textscroll
+
+        self.editor.bind()
+
+    def _on_scrollbar(self,*args):
+        for widget in self._widgets:
+            widget.yview(*args)
+    
+    def _on_textscroll(self,start,end):
+        self.set(start,end)
+        self._on_scrollbar('moveto',start)
+
 class TextLineNumbers(tk.Text):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -27,20 +47,18 @@ class TextLineNumbers(tk.Text):
             self.linenumbers.insert(tk.END, f'{i+1}  \n','right')
         self.linenumbers.config(state=tk.DISABLED)
 
-        
-
-
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.linenumbers = TextLineNumbers(self,state=tk.DISABLED)
         self.editor = tk.Text(self,wrap=tk.NONE)
 
-        # Vertical Scrollbar
-        self.vsb = ttk.Scrollbar(self,orient=tk.VERTICAL,command=self.editor.yview)
-        self.editor.configure(yscrollcommand=self.vsb.set)
+        # Vertical Editor Scrollbar (for linenumbers and editor text widget)
+        #self.vsb = ttk.Scrollbar(self,orient=tk.VERTICAL,command=self.editor.yview)
+        #self.editor.configure(yscrollcommand=self.vsb.set)
+        self.vsb = SyncedScrollbar(self,editor=self.editor,linenumbers=self.linenumbers)
 
-        # Horizontal Scrollbar (not working)
+        # Horizontal Scrollbar
         self.hsb = ttk.Scrollbar(self,orient=tk.HORIZONTAL,command=self.editor.xview)
         self.editor.configure(xscrollcommand=self.hsb.set)
 
@@ -52,7 +70,7 @@ class CodeEditor(tk.Frame):
         self.linenumbers.set_editor(self.editor)
         
         # Place component on grid
-        self.linenumbers.grid(row=0,column=0,rowspan=2,sticky='ns')
+        self.linenumbers.grid(row=0,column=0,padx=(0,0),rowspan=2,sticky='ns')
         self.editor.grid(row=0,column=1,padx=(10,10),sticky='nsew')
         self.vsb.grid(row=0,column=2,rowspan=2,sticky='nsew')
         self.hsb.grid(row=1,column=1,sticky='nswe')
@@ -70,7 +88,7 @@ class CodeEditor(tk.Frame):
         # Binds
         self.editor.bind_class('Text','<Control-Key-a>',self.select_all)
         self.editor.bind('<KeyRelease>',self.on_event)
-        self.editor.bind('<ButtonPress>',self.on_event)
+        #self.editor.bind('<ButtonPress>',self.on_event) //this causes crazy lag
 
         # Set focus
         self.editor.focus_set()
@@ -97,8 +115,9 @@ class MainApp:
         self.root.title("Python Code Editor")
         screen_width = self.root.winfo_screenwidth() 
         screen_height = self.root.winfo_screenheight()
-        self.root.geometry(f'{screen_width//2}x{screen_height}+0+0') # Window opens 'tiled' to the left
-
+        #self.root.geometry(f'{screen_width//2}x{screen_height}+0+0') # Window opens 'tiled' to the left
+        self.root.geometry(f'600x400+{screen_width//11}+{(screen_height//4)+10}') # Window opens small to left of screen
+        
         # Initialize code editor component within main window
         self.code_editor_frame = CodeEditor(self.root)
 
