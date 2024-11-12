@@ -13,18 +13,14 @@ class SyncedScrollbar(ttk.Scrollbar):
         self._widgets = [widget for widget in widgetlist.values() if hasattr(widget,'yview')]
         super().__init__(parent,command=self._on_scrollbar)
 
-        #for widget in self._widgets:
-        #    widget['yscrollcommand'] = self._on_textscroll
-        self.editor = self._widgets[0]
-        self.editor['yscrollcommand'] = self._on_textscroll
-
-        self.editor.bind()
+        for widget in self._widgets:
+            widget['yscrollcommand'] = self.on_textscroll
 
     def _on_scrollbar(self,*args):
         for widget in self._widgets:
             widget.yview(*args)
     
-    def _on_textscroll(self,start,end):
+    def on_textscroll(self,start,end):
         self.set(start,end)
         self._on_scrollbar('moveto',start)
 
@@ -50,7 +46,7 @@ class TextLineNumbers(tk.Text):
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
-        self.linenumbers = TextLineNumbers(self,state=tk.DISABLED)
+        self.linenumbers = TextLineNumbers(self,state=tk.DISABLED,wrap=tk.NONE)
         self.editor = tk.Text(self,wrap=tk.NONE)
 
         # Vertical Editor Scrollbar (for linenumbers and editor text widget)
@@ -70,9 +66,9 @@ class CodeEditor(tk.Frame):
         self.linenumbers.set_editor(self.editor)
         
         # Place component on grid
-        self.linenumbers.grid(row=0,column=0,padx=(0,0),rowspan=2,sticky='ns')
-        self.editor.grid(row=0,column=1,padx=(10,10),sticky='nsew')
-        self.vsb.grid(row=0,column=2,rowspan=2,sticky='nsew')
+        self.linenumbers.grid(row=0,column=0,padx=(0,0),sticky='ns')
+        self.editor.grid(row=0,column=1,padx=(0,1),sticky='nsew')
+        self.vsb.grid(row=0,column=2,sticky='nsew')
         self.hsb.grid(row=1,column=1,sticky='nswe')
 
         # Configure grid weights for proper resizing
@@ -86,8 +82,10 @@ class CodeEditor(tk.Frame):
         self.grid_columnconfigure(1,weight=1)
 
         # Binds
-        self.editor.bind_class('Text','<Control-Key-a>',self.select_all)
-        self.editor.bind('<KeyRelease>',self.on_event)
+        self.editor.bind_class('Text','<Control-Key-a>',self._select_all)
+        self.editor.bind('<KeyRelease>',self._on_event)
+        #self.editor.bind('<Configure>',self._on_event)
+        #self.editor.bind('<MouseWheel>',self._on_event)
         #self.editor.bind('<ButtonPress>',self.on_event) //this causes crazy lag
 
         # Set focus
@@ -97,15 +95,24 @@ class CodeEditor(tk.Frame):
         self.linenumbers.update_line_numbers(self.linenumbers)
         self.syntax.apply_syntax_highlighting()
 
-    def select_all(self,event=None):
+    def _select_all(self,event=None):
         self.editor.tag_add(tk.SEL,'1.0',tk.END)
         self.editor.mark_set(tk.INSERT,'1.0')
         self.editor.see(tk.INSERT)
         return 'break'
 
-    def on_event(self,event):
+    def _on_event(self,event):
+        # Get current view position before updating line numbers
+        start = self.editor.yview()[0]
+        end = self.editor.yview()[1]
+
+        # Update line numbers and apply syntax highlighting
         self.linenumbers.update_line_numbers(self.linenumbers)
         self.syntax.apply_syntax_highlighting()
+
+        # Scroll linenumbers back to position after updating it
+        self.vsb.set(start,end)
+        self.vsb._on_scrollbar('moveto',start)
 
 class MainApp:
     def __init__(self):
@@ -136,4 +143,3 @@ class MainApp:
 if __name__=='__main__': # Initializes main application that creates root window and then mainframe
     app = MainApp()
     app.program_run()
-

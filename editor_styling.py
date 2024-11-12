@@ -11,6 +11,8 @@ class EditorStyling:
         # Styling fonts
         self.font = ('JetBrains Mono',11,tk.NORMAL)
         self.font_em = ('JetBrains Mono',11,'italic')
+        #self.font =('Ubuntu Mono',11,tk.NORMAL)
+        #self.font_em = ('Ubuntu Mono',11,'italic')
         # Styling colors
         self.normal_text = '#c6cac7'
         self.tint_2 = '#cac6c8' # tint lightest
@@ -55,7 +57,7 @@ class EditorStyling:
             if widget_name=='code_editor_frame':
                 widget_obj.configure(
                     background=self.base_0,
-                    highlightthickness=2,
+                    highlightthickness=0,
                     highlightcolor=self.base_2,
                     highlightbackground=self.tone_2
                 )
@@ -75,7 +77,7 @@ class EditorStyling:
                 )
             elif widget_name=='linenumbers':
                 widget_obj.configure(
-                    font=self.font_em,
+                    font=self.font,
                     background=self.base_2,
                     foreground=self.normal_text,
                     selectbackground=self.tone_0,
@@ -86,7 +88,7 @@ class EditorStyling:
                     spacing1=0,
                     spacing2=0,
                     spacing3=5,
-                    width=6
+                    width=7
                 )
             elif widget_name=='vsb': # Vertical Scrollbar
                 # Layout to remove arrows
