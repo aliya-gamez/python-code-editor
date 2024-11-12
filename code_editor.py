@@ -13,14 +13,15 @@ class SyncedScrollbar(ttk.Scrollbar):
         self._widgets = [widget for widget in widgetlist.values() if hasattr(widget,'yview')]
         super().__init__(parent,command=self.on_scrollbar)
 
+        # For every passed scrollable widget, give scroll command
         for widget in self._widgets:
             widget['yscrollcommand'] = self.on_textscroll
 
-    def on_scrollbar(self,*args):
+    def on_scrollbar(self,*args): # this sets yview[start,end] to be same for all connected widgets
         for widget in self._widgets:
             widget.yview(*args)
     
-    def on_textscroll(self,start,end):
+    def on_textscroll(self,start,end): # update sb position then sync widgets
         self.set(start,end)
         self.on_scrollbar('moveto',start)
 
@@ -40,7 +41,7 @@ class TextLineNumbers(tk.Text):
         self.editor = editor_widget
         self.vsb = vsb_widget
 
-    def on_linenumber_change_event(self,event):
+    def on_linenumber_change_event(self):
         # Get current view position before updating line numbers
         start = self.editor.yview()[0]
         end = self.editor.yview()[1]
@@ -108,17 +109,12 @@ class CodeEditor(tk.Frame):
         # Binds
         self.editor.bind_class('Text','<Control-Key-a>',self._select_all)
         self.editor.bind('<KeyRelease>',self._on_event)
-        self.editor.bind('<KeyRelease>', self.linenumbers.on_linenumber_change_event)
-        #self.editor.bind('<Configure>',self._on_event)
-        #self.editor.bind('<MouseWheel>',self._on_event)
-        #self.editor.bind('<ButtonPress>',self.on_event) //this causes crazy lag
 
         # Set focus
         self.editor.focus_set()
 
         #Run function initially
-        #self.linenumbers.update_line_numbers()
-        #self.syntax.apply_syntax_highlighting()
+        self.syntax.apply_syntax_highlighting()
 
     def _select_all(self,event=None):
         self.editor.tag_add(tk.SEL,'1.0',tk.END)
@@ -128,8 +124,8 @@ class CodeEditor(tk.Frame):
 
     def _on_event(self,event):
         # Apply syntax highlighting
-        #self.syntax.apply_syntax_highlighting()
-        return 'break'
+        self.syntax.apply_syntax_highlighting()
+        self.linenumbers.on_linenumber_change_event()
 
 class MainApp:
     def __init__(self):
