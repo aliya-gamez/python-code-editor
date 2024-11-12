@@ -58,11 +58,10 @@ class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.linenumbers = TextLineNumbers(self,wrap=tk.NONE)
+        self.linenumbers_gap = tk.Frame(self) # to fill in gap
         self.editor = tk.Text(self,wrap=tk.NONE)
 
         # Vertical Editor Scrollbar (for linenumbers and editor text widget)
-        #self.vsb = ttk.Scrollbar(self,orient=tk.VERTICAL,command=self.editor.yview)
-        #self.editor.configure(yscrollcommand=self.vsb.set)
         self.vsb = SyncedScrollbar(self,editor=self.editor,linenumbers=self.linenumbers)
 
         # Horizontal Scrollbar
@@ -70,7 +69,7 @@ class CodeEditor(tk.Frame):
         self.editor.configure(xscrollcommand=self.hsb.set)
 
         # Pass to EditorStyling for styling and syntax
-        self.styling = EditorStyling(linenumbers=self.linenumbers,editor=self.editor,vsb=self.vsb,hsb=self.hsb)
+        self.styling = EditorStyling(linenumbers=self.linenumbers,linenumbers_gap=self.linenumbers_gap,editor=self.editor,vsb=self.vsb,hsb=self.hsb)
         self.syntax = EditorSyntax(self.editor,self.styling)
 
         # Pass to TextLineNumbers to apply functionality
@@ -78,8 +77,9 @@ class CodeEditor(tk.Frame):
         
         # Place component on grid
         self.linenumbers.grid(row=0,column=0,padx=(0,0),sticky='ns')
+        self.linenumbers_gap.grid(row=1,column=0,sticky='nsew') # to fill in gap
         self.editor.grid(row=0,column=1,padx=(0,1),sticky='nsew')
-        self.vsb.grid(row=0,column=2,sticky='nsew')
+        self.vsb.grid(row=0,column=2,rowspan=2,sticky='nsew')
         self.hsb.grid(row=1,column=1,sticky='nswe')
 
         # Configure grid weights for proper resizing

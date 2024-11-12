@@ -90,6 +90,10 @@ class EditorStyling:
                     spacing3=5,
                     width=7
                 )
+            elif widget_name=='linenumbers_gap':
+                widget_obj.configure(
+                    background=self.base_2
+                )
             elif widget_name=='vsb': # Vertical Scrollbar
                 # Layout to remove arrows
                 style.layout('noarrow.Vertical.TScrollbar',[('Vertical.Scrollbar.trough',{'sticky':'ns','children':[('Vertical.Scrollbar.thumb',{'sticky':'nswe','expand':'1'})]})])
