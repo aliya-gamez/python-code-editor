@@ -1,6 +1,5 @@
-<a id="readme-top"></a> <!--<p align="right">(<a href="#readme-top">back to top</a>)</p>-->
-# PochaCode
-
+<a id="readme-top"></a> 
+<!--<p align="right">(<a href="#readme-top">back to top</a>)</p>-->
 <!-- 
 
 Project Name:       PochaCode
@@ -8,11 +7,8 @@ Repository Name:    python-code-editor
 
 -->
 
-**Brief Description**  
-
+# PochaCode
 A code editor for writing Python.
-
----
 
 ## Table of Contents
 1. [About the Project](#about-the-project)
@@ -21,8 +17,6 @@ A code editor for writing Python.
 4. [Usage](#usage)
 5. [Project Structure](#project-structure)
 6. [License](#license)
-
----
 
 ## About the Project
 
@@ -50,31 +44,29 @@ This is a simple code editor written in Python, for Python. Currently, all it ca
 
 ### Installation
 
-#### 0. Requirements
+#### 1. Requirements
 
 - Python 3.2+
 - Tkinter
 
-#### 1. Clone the Repository:
+#### 2. Clone the Repository:
 - **Linux/MacOS and Windows**
-    - ***Git or Git Bash must be installed***
-        ```bash
-        # Windows and Linux/macOS
-        git clone https://github.com/aliya-gamez/python-code-editor.git
-        cd python-code-editor
-        ```
+    ```bash
+    # Windows and Linux/macOS
+    git clone https://github.com/aliya-gamez/python-code-editor.git
+    cd python-code-editor
+    ```
 
-#### 2. Install Dependencies:
-Please navigate into a folder you'd like repo to be in
-- **Python Virtual Environment**
-    - **Linux/MacOS**:
-        ```bash
-        sudo apt install python3-tk
-        ```
-    - **Windows**:
-        ```bash
-        pip install tk
-        ```
+#### 3. Install Tkinter (if not installed):
+Only run these commands if you do not have tkinter installed.
+- **Linux/MacOS**:
+    ```bash
+    sudo apt install python3-tk
+    ```
+- **Windows**:
+    ```bash
+    pip install tk
+    ```
 
  <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
