@@ -28,6 +28,7 @@ class TextLineNumbers(tk.Text):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.editor = None
+        self.vsb = None
 
         # Disable line number widget from being editable, and insert inital line number
         self.insert('1.0','%5d' % 1)
@@ -35,24 +36,36 @@ class TextLineNumbers(tk.Text):
         self.current_line_count = 0
         self.config(state=tk.DISABLED)
 
-    def set_editor(self,editor_widget): # Set primary text code editor
+    def set_primary_components(self,editor_widget,vsb_widget): # Set primary text code editor
         self.editor = editor_widget
+        self.vsb = vsb_widget
+
+    def on_linenumber_change_event(self,event):
+        # Get current view position before updating line numbers
+        start = self.editor.yview()[0]
+        end = self.editor.yview()[1]
+
+        # Update line numbers and apply syntax highlighting
+        self.current_line_count = int(self.editor.index('end-1c').split('.')[0])
+        if self.current_line_count != self.previous_line_count:
+            self.update_line_numbers()
+
+        # Scroll linenumbers back to position after updating it
+        self.vsb.set(start,end)
+        self.vsb.on_scrollbar('moveto',start)
 
     def update_line_numbers(self):
-        current_line_count = int(self.editor.index('end-1c').split('.')[0])
-        if current_line_count == self.previous_line_count: # check if line count didnt change, exit func if so
-            return "break"
         self.config(state=tk.NORMAL)
 
         # Check if line count increased or decreased
-        if current_line_count > self.previous_line_count:
-            for i in range(self.previous_line_count + 1, current_line_count + 1):
+        if self.current_line_count > self.previous_line_count:
+            for i in range(self.previous_line_count + 1, self.current_line_count + 1):
                 self.insert('end-1c', '\n%5d' % i)
-        if current_line_count < self.previous_line_count:
-            self.delete('%d.0+1l-1c' % current_line_count, 'end-1c')
+        if self.current_line_count < self.previous_line_count:
+            self.delete('%d.0+1l-1c' % self.current_line_count, 'end-1c')
 
         self.config(state=tk.DISABLED)
-        self.previous_line_count = current_line_count
+        self.previous_line_count = self.current_line_count
 
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
@@ -73,7 +86,7 @@ class CodeEditor(tk.Frame):
         self.syntax = EditorSyntax(self.editor,self.styling)
 
         # Pass to TextLineNumbers to apply functionality
-        self.linenumbers.set_editor(self.editor)
+        self.linenumbers.set_primary_components(self.editor,self.vsb)
         
         # Place component on grid
         self.linenumbers.grid(row=0,column=0,padx=(0,0),sticky='ns')
@@ -95,6 +108,7 @@ class CodeEditor(tk.Frame):
         # Binds
         self.editor.bind_class('Text','<Control-Key-a>',self._select_all)
         self.editor.bind('<KeyRelease>',self._on_event)
+        self.editor.bind('<KeyRelease>', self.linenumbers.on_linenumber_change_event)
         #self.editor.bind('<Configure>',self._on_event)
         #self.editor.bind('<MouseWheel>',self._on_event)
         #self.editor.bind('<ButtonPress>',self.on_event) //this causes crazy lag
@@ -103,8 +117,8 @@ class CodeEditor(tk.Frame):
         self.editor.focus_set()
 
         #Run function initially
-        self.linenumbers.update_line_numbers()
-        self.syntax.apply_syntax_highlighting()
+        #self.linenumbers.update_line_numbers()
+        #self.syntax.apply_syntax_highlighting()
 
     def _select_all(self,event=None):
         self.editor.tag_add(tk.SEL,'1.0',tk.END)
@@ -113,17 +127,9 @@ class CodeEditor(tk.Frame):
         return 'break'
 
     def _on_event(self,event):
-        # Get current view position before updating line numbers
-        start = self.editor.yview()[0]
-        end = self.editor.yview()[1]
-
-        # Update line numbers and apply syntax highlighting
-        self.linenumbers.update_line_numbers()
-        self.syntax.apply_syntax_highlighting()
-
-        # Scroll linenumbers back to position after updating it
-        self.vsb.set(start,end)
-        self.vsb.on_scrollbar('moveto',start)
+        # Apply syntax highlighting
+        #self.syntax.apply_syntax_highlighting()
+        return 'break'
 
 class MainApp:
     def __init__(self):
