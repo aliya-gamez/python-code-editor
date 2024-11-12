@@ -11,42 +11,53 @@ from editor_styling import EditorSyntax
 class SyncedScrollbar(ttk.Scrollbar):
     def __init__(self,parent,**widgetlist):
         self._widgets = [widget for widget in widgetlist.values() if hasattr(widget,'yview')]
-        super().__init__(parent,command=self._on_scrollbar)
+        super().__init__(parent,command=self.on_scrollbar)
 
         for widget in self._widgets:
             widget['yscrollcommand'] = self.on_textscroll
 
-    def _on_scrollbar(self,*args):
+    def on_scrollbar(self,*args):
         for widget in self._widgets:
             widget.yview(*args)
     
     def on_textscroll(self,start,end):
         self.set(start,end)
-        self._on_scrollbar('moveto',start)
+        self.on_scrollbar('moveto',start)
 
 class TextLineNumbers(tk.Text):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.editor = None
 
-    def set_editor(self,editor_widget):
+        # Disable line number widget from being editable, and insert inital line number
+        self.insert('1.0','%5d' % 1)
+        self.previous_line_count = 1
+        self.current_line_count = 0
+        self.config(state=tk.DISABLED)
+
+    def set_editor(self,editor_widget): # Set primary text code editor
         self.editor = editor_widget
 
-    def update_line_numbers(self,linenumbers):
-        self.linenumbers = linenumbers;
-        self.linenumbers.config(state=tk.NORMAL)
-        self.linenumbers.delete('1.0',tk.END)
-        current_text = self.editor.get('1.0', tk.END)
-        line_count = len(current_text.splitlines())
-        self.tag_configure('right',justify='right')
-        for i in range(0, line_count):
-            self.linenumbers.insert(tk.END, f'{i+1}  \n','right')
-        self.linenumbers.config(state=tk.DISABLED)
+    def update_line_numbers(self):
+        current_line_count = int(self.editor.index('end-1c').split('.')[0])
+        if current_line_count == self.previous_line_count: # check if line count didnt change, exit func if so
+            return "break"
+        self.config(state=tk.NORMAL)
+
+        # Check if line count increased or decreased
+        if current_line_count > self.previous_line_count:
+            for i in range(self.previous_line_count + 1, current_line_count + 1):
+                self.insert('end-1c', '\n%5d' % i)
+        if current_line_count < self.previous_line_count:
+            self.delete('%d.0+1l-1c' % current_line_count, 'end-1c')
+
+        self.config(state=tk.DISABLED)
+        self.previous_line_count = current_line_count
 
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
-        self.linenumbers = TextLineNumbers(self,state=tk.DISABLED,wrap=tk.NONE)
+        self.linenumbers = TextLineNumbers(self,wrap=tk.NONE)
         self.editor = tk.Text(self,wrap=tk.NONE)
 
         # Vertical Editor Scrollbar (for linenumbers and editor text widget)
@@ -92,7 +103,7 @@ class CodeEditor(tk.Frame):
         self.editor.focus_set()
 
         #Run function initially
-        self.linenumbers.update_line_numbers(self.linenumbers)
+        self.linenumbers.update_line_numbers()
         self.syntax.apply_syntax_highlighting()
 
     def _select_all(self,event=None):
@@ -107,12 +118,12 @@ class CodeEditor(tk.Frame):
         end = self.editor.yview()[1]
 
         # Update line numbers and apply syntax highlighting
-        self.linenumbers.update_line_numbers(self.linenumbers)
+        self.linenumbers.update_line_numbers()
         self.syntax.apply_syntax_highlighting()
 
         # Scroll linenumbers back to position after updating it
         self.vsb.set(start,end)
-        self.vsb._on_scrollbar('moveto',start)
+        self.vsb.on_scrollbar('moveto',start)
 
 class MainApp:
     def __init__(self):
