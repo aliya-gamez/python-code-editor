@@ -74,6 +74,7 @@ class CodeEditor(tk.Frame):
         self.linenumbers = TextLineNumbers(self,wrap=tk.NONE)
         self.linenumbers_gap = tk.Frame(self) # to fill in gap
         self.editor = tk.Text(self,wrap=tk.NONE)
+        self.test_frame = tk.Frame(self)
 
         # Vertical Editor Scrollbar (for linenumbers and editor text widget)
         self.vsb = SyncedScrollbar(self,editor=self.editor,linenumbers=self.linenumbers)
