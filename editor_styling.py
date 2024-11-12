@@ -9,11 +9,12 @@ class EditorStyling:
         self._widgets = widgetlist
 
         # Styling fonts
-        self.font = ('JetBrains Mono',11,tk.NORMAL)
-        self.font_em = ('JetBrains Mono',11,'italic')
+        self.font = ('Fira Code',11,tk.NORMAL)
+        self.font_em = ('Fira Code',11,'italic')
         #self.font =('Ubuntu Mono',11,tk.NORMAL)
         #self.font_em = ('Ubuntu Mono',11,'italic')
         # Styling colors
+        self.alt_text = '#a7aaab'
         self.normal_text = '#c6cac7'
         self.tint_2 = '#cac6c8' # tint lightest
         self.tint_1 = '#958d92' # Tint lighter
@@ -56,14 +57,12 @@ class EditorStyling:
         for widget_name,widget_obj in self._widgets.items():
             if widget_name=='code_editor_frame':
                 widget_obj.configure(
-                    background=self.base_0,
-                    highlightthickness=0,
-                    highlightcolor=self.base_2,
-                    highlightbackground=self.tone_2
+                    background=self.base_0
                 )
             elif widget_name=='editor': # Main Editor
                 widget_obj.configure(
                     font=self.font,
+                    tabs='1c',
                     background=self.base_0,
                     foreground=self.normal_text,
                     selectbackground=self.tone_0,
@@ -71,24 +70,25 @@ class EditorStyling:
                     insertbackground=self.normal_text,
                     highlightthickness=0,
                     relief=tk.FLAT,
-                    spacing1=0,
+                    spacing1=4,
                     spacing2=0,
-                    spacing3=5
+                    spacing3=0
                 )
             elif widget_name=='linenumbers':
                 widget_obj.configure(
                     font=self.font,
                     background=self.base_2,
-                    foreground=self.normal_text,
-                    selectbackground=self.tone_0,
-                    selectforeground=self.normal_text,
-                    insertbackground=self.normal_text,
+                    foreground=self.alt_text,
+                    selectbackground=self.base_2,
+                    selectforeground=self.alt_text,
+                    insertbackground=self.base_2,
                     highlightthickness=0,
                     relief=tk.FLAT,
-                    spacing1=0,
+                    spacing1=4,
                     spacing2=0,
-                    spacing3=5,
-                    width=7
+                    spacing3=0,
+                    width=7,
+                    cursor='arrow'
                 )
             elif widget_name=='linenumbers_gap':
                 widget_obj.configure(
@@ -119,7 +119,7 @@ class EditorStyling:
                 style.map('noarrow.Horizontal.TScrollbar',background=[('disabled',self.base_0)])
                 widget_obj.configure(style='noarrow.Horizontal.TScrollbar')
             else:
-                return "break"
+                print('Alert:\tA widget passed into the EditorStyling class is not styled!')
    
 class EditorSyntax:
     def __init__(self,editor,styling:EditorStyling):

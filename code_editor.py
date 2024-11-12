@@ -90,20 +90,24 @@ class CodeEditor(tk.Frame):
         self.linenumbers.set_primary_components(self.editor,self.vsb)
         
         # Place component on grid
-        self.linenumbers.grid(row=0,column=0,padx=(0,0),sticky='ns')
-        self.linenumbers_gap.grid(row=1,column=0,sticky='nsew') # to fill in gap
-        self.editor.grid(row=0,column=1,padx=(0,1),sticky='nsew')
-        self.vsb.grid(row=0,column=2,rowspan=2,sticky='nsew')
-        self.hsb.grid(row=1,column=1,sticky='nswe')
+        self.linenumbers.grid(row=0,column=0,pady=(0,0),padx=(0,0),sticky='ns') # Linenumbers
+        self.editor.grid(row=0,column=1,pady=(0,0),padx=(5,2),sticky='nsew') # Editor
+        self.vsb.grid(row=0,column=2,rowspan=3,sticky='nsew') # Vertical Scroll Bar
+        self.linenumbers_gap.grid(row=1,column=0,sticky='nsew') 
+        self.hsb.grid(row=1,column=1,sticky='nswe') # Horizontal Scroll Bar (hsb)
 
         # Configure grid weights for proper resizing
-        self.grid_rowconfigure(0,weight=1) # linenumbers
-        self.grid_columnconfigure(0,weight=0) # linenumbers
-        self.grid_rowconfigure(0,weight=1) # editor
-        self.grid_columnconfigure(1,weight=1) # editor
-        self.grid_rowconfigure(0,weight=1) #vsb
+        # (0,0) Linenumbers
+        self.grid_rowconfigure(0,weight=1)
+        self.grid_columnconfigure(0,weight=0)
+        # (0,1) Editor
+        self.grid_rowconfigure(0,weight=1)
+        self.grid_columnconfigure(1,weight=1)
+        # (0,2) Vertical Scroll Bar (vsb)
+        self.grid_rowconfigure(0,weight=1)
         self.grid_columnconfigure(2,weight=0)
-        self.grid_rowconfigure(1,weight=0) # hsb
+        # (2,1) Horizontal Scroll Bar (hsb)
+        self.grid_rowconfigure(1,weight=0)
         self.grid_columnconfigure(1,weight=1)
 
         # Binds
@@ -114,19 +118,18 @@ class CodeEditor(tk.Frame):
         self.editor.focus_set()
 
         #Run function initially
-        #self.syntax.apply_syntax_highlighting()
+        self.syntax.apply_syntax_highlighting()
+
+    def _on_event(self,event):
+        # Apply syntax highlighting
+        self.syntax.apply_syntax_highlighting()
+        self.linenumbers.on_linenumber_change_event()
 
     def _select_all(self,event=None): # selects all text, also allows selections to 
         self.editor.tag_add(tk.SEL,'1.0',tk.END)
         self.editor.mark_set(tk.INSERT,'1.0')
         #self.editor.see(tk.INSERT) # move to cursor
         return 'break'
-
-    def _on_event(self,event):
-        # Apply syntax highlighting
-        #self.syntax.apply_syntax_highlighting()
-        self.linenumbers.on_linenumber_change_event()
-
 
 class MainApp:
     def __init__(self):
