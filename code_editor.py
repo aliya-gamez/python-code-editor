@@ -114,18 +114,19 @@ class CodeEditor(tk.Frame):
         self.editor.focus_set()
 
         #Run function initially
-        self.syntax.apply_syntax_highlighting()
+        #self.syntax.apply_syntax_highlighting()
 
-    def _select_all(self,event=None):
+    def _select_all(self,event=None): # selects all text, also allows selections to 
         self.editor.tag_add(tk.SEL,'1.0',tk.END)
         self.editor.mark_set(tk.INSERT,'1.0')
-        self.editor.see(tk.INSERT)
+        #self.editor.see(tk.INSERT) # move to cursor
         return 'break'
 
     def _on_event(self,event):
         # Apply syntax highlighting
-        self.syntax.apply_syntax_highlighting()
+        #self.syntax.apply_syntax_highlighting()
         self.linenumbers.on_linenumber_change_event()
+
 
 class MainApp:
     def __init__(self):
@@ -150,7 +151,7 @@ class MainApp:
         self.root.grid_columnconfigure(0, weight=0)
         self.root.grid_columnconfigure(1, weight=1) #editor
 
-    def program_run(self): # Runs program (make more readable)
+    def program_run(self): # Runs program
         self.root.mainloop()
 
 if __name__=='__main__': # Initializes main application that creates root window and then mainframe
