@@ -5,12 +5,14 @@ from tkinter import ttk
 
 from .utils.synced_scrollbar import SyncedScrollbar
 from .utils.text_line_numbers import TextLineNumbers
+from .menu_bar import MenuBar
 from .editor_styling import EditorStyling
 from .syntax_highlight import SyntaxHighlight
 
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
+        self.menu_bar = MenuBar(self)
         self.linenumbers = TextLineNumbers(self,wrap=tk.NONE)
         self.linenumbers_gap = tk.Frame(self) # to fill in gap
         self.editor = tk.Text(self,wrap=tk.NONE)
@@ -30,24 +32,28 @@ class CodeEditor(tk.Frame):
         self.linenumbers.set_primary_components(self.editor,self.vsb)
         
         # Place component on grid
-        self.linenumbers.grid(row=0,column=0,pady=(0,0),padx=(0,0),sticky='ns') # Linenumbers
-        self.editor.grid(row=0,column=1,pady=(0,0),padx=(5,2),sticky='nsew') # Editor
-        self.vsb.grid(row=0,column=2,rowspan=3,sticky='nsew') # Vertical Scroll Bar
-        self.linenumbers_gap.grid(row=1,column=0,sticky='nsew') 
-        self.hsb.grid(row=1,column=1,sticky='nswe') # Horizontal Scroll Bar (hsb)
+        self.menu_bar.grid(row=0, column=0, columnspan=3, sticky="nsew") # Menu Bar
+        self.linenumbers.grid(row=1,column=0,pady=(0,0),padx=(0,0),sticky='ns') # Linenumbers
+        self.editor.grid(row=1,column=1,pady=(0,0),padx=(5,2),sticky='nsew') # Editor
+        self.vsb.grid(row=1,column=2,rowspan=3,sticky='nsew') # Vertical Scroll Bar
+        self.linenumbers_gap.grid(row=2,column=0,sticky='nsew') 
+        self.hsb.grid(row=2,column=1,sticky='nswe') # Horizontal Scroll Bar (hsb)
 
         # Configure grid weights for proper resizing
-        # (0,0) Linenumbers
+        # (0,0) Menu Bar (Span 3 Columns)
         self.grid_rowconfigure(0,weight=1)
+        self.grid_columnconfigure(0,weight=1)
+        # (1,0) Linenumbers
+        self.grid_rowconfigure(1,weight=1)
         self.grid_columnconfigure(0,weight=0)
-        # (0,1) Editor
-        self.grid_rowconfigure(0,weight=1)
+        # (1,1) Editor
+        self.grid_rowconfigure(1,weight=1)
         self.grid_columnconfigure(1,weight=1)
-        # (0,2) Vertical Scroll Bar (vsb)
-        self.grid_rowconfigure(0,weight=1)
+        # (1,2) Vertical Scroll Bar (vsb) (Span 3 Rows)
+        self.grid_rowconfigure(1,weight=1)
         self.grid_columnconfigure(2,weight=0)
         # (2,1) Horizontal Scroll Bar (hsb)
-        self.grid_rowconfigure(1,weight=0)
+        self.grid_rowconfigure(2,weight=0)
         self.grid_columnconfigure(1,weight=1)
 
         # Binds
