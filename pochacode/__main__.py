@@ -13,7 +13,7 @@ class MainApp:
         self.root.title("PochaCode: Python Editor")
         screen_width = self.root.winfo_screenwidth() 
         screen_height = self.root.winfo_screenheight()
-        self.root.geometry(f'600x400+{screen_width//11}+{(screen_height//4)+10}')
+        self.root.geometry(f'800x600+{screen_width//11}+{(screen_height//4)+10}')
         
         # Initialize code editor component within main window
         self.code_editor_frame = CodeEditor(self.root)
