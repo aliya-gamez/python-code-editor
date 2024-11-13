@@ -10,8 +10,6 @@ class EditorStyling:
         # Styling fonts
         self.font = ('Fira Code',11,tk.NORMAL)
         self.font_em = ('Fira Code',11,'italic')
-        #self.font =('Ubuntu Mono',11,tk.NORMAL)
-        #self.font_em = ('Ubuntu Mono',11,'italic')
         # Styling colors
         self.alt_text = '#a7aaab'
         self.normal_text = '#c6cac7'
@@ -57,20 +55,6 @@ class EditorStyling:
             if widget_name=='code_editor_frame':
                 widget_obj.configure(
                     background=self.base_0
-                )
-            elif widget_name=='menu_bar_frame':
-                widget_obj.configure(
-                    background=self.tint_1,
-                    highlightthickness=0,
-                    highlightbackground=self.tint_2,
-                    highlightcolor=self.tint_2
-                )
-            elif widget_name=='button':
-                widget_obj.configure(
-                    background=self.tint_2,
-                    foreground=self.base_2,
-                    relief=tk.FLAT,
-                    bd=0
                 )
             elif widget_name=='editor': # Main Editor
                 widget_obj.configure(

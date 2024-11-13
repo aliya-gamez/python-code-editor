@@ -2,31 +2,31 @@
 
 import tkinter as tk
 
+from .menu_bar import MenuBar
 from .code_editor import CodeEditor
 from .editor_styling import EditorStyling
-from .menu_bar import MenuBar
 
 class MainApp:
     def __init__(self):
-        self.root = tk.Tk()
+        self.root = tk.Tk() # Main window
+        self.code_editor_frame = CodeEditor(self.root)
+        self.menu_bar = MenuBar(self.root)
 
         # Main window configuration
-        self.root.title("PochaCode: Python Editor")
         screen_width = self.root.winfo_screenwidth() 
         screen_height = self.root.winfo_screenheight()
         self.root.geometry(f'800x600+{screen_width//11}+{(screen_height//4)+10}')
-        
-        # Initialize code editor component within main window
-        self.code_editor_frame = CodeEditor(self.root)
+        self.root.title("PochaCode: Python Editor")
+        self.root.configure(menu=self.menu_bar)
 
-        # Pass to EditorStyling for styling and syntax
+        # Initialize EditorStyling with widgets to manage styling
         self.styling = EditorStyling(code_editor_frame=self.code_editor_frame)
 
-        # Place component on grid
-        self.code_editor_frame.grid(row=0,column=0,columnspan=2,sticky='nswe')
-        self.root.grid_rowconfigure(0, weight=1)
-        self.root.grid_columnconfigure(0, weight=0)
-        self.root.grid_columnconfigure(1, weight=1)
+        # Place frame into window with pack
+        self.code_editor_frame.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
+
+        # Set primary editor in MenuBar
+        self.menu_bar.set_editor(self.code_editor_frame.editor)
 
     def program_run(self):
         self.root.mainloop()

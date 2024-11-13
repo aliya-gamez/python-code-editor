@@ -4,9 +4,9 @@ import tkinter as tk
 from tkinter import ttk
 
 class SyncedScrollbar(ttk.Scrollbar):
-    def __init__(self,parent,**widgetlist):
+    def __init__(self,*args,**widgetlist):
+        super().__init__(*args,command=self.on_scrollbar)
         self._widgets = [widget for widget in widgetlist.values() if hasattr(widget,'yview')]
-        super().__init__(parent,command=self.on_scrollbar)
 
         # For every passed scrollable widget, give scroll command
         for widget in self._widgets:

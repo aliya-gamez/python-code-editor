@@ -4,53 +4,38 @@ import tkinter as tk
 
 from .editor_styling import EditorStyling
 
-class MenuBar(tk.Frame):
+class MenuBar(tk.Menu):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
+        self.editor = None
 
-        menu_bar = tk.Menu(self)
-        file_menu = tk.Menu(menu_bar,tearoff=0)
-        file_menu.add_command(label='New File...',command=self.new_file)
-        file_menu.add_command(label='Open File...',command=self.open_file)
-        file_menu.add_command(label='Save',command=self.save_file)
-        file_menu.add_command(label='Save As...',command=self.save_as_file)
-        file_menu.add_command(label='Exit',command=self.exit_file)
+        # Initialize 'File' menu within MenuBar and configure
+        file_menu = tk.Menu(self,tearoff=0)
+        self.add_cascade(label='File',menu=file_menu)
+        file_menu.add_command(label='New File...',command=self.file_new)
+        file_menu.add_command(label='Open File...',command=self.file_open)
+        file_menu.add_command(label='Save',command=self.file_save)
+        file_menu.add_command(label='Save As...',command=self.file_save_as)
+        file_menu.add_separator()
+        file_menu.add_command(label='Exit',command=self.file_exit)
 
-        # Initialize Buttons
-        #self.new_button = tk.Button(self,text='New File',command=self.new_file) # 1
-        #self.open_button = tk.Button(self,text='Open',command=self.open_file) # 2
-        #self.save_button = tk.Button(self,text='Save',command=self.save_file) # 3
-        #self.save_as_button = tk.Button(self,text='Save As',command=self.save_as_file) # 4
+    def set_editor(self,editor_widget):
+        self.editor = editor_widget
 
-        # Pass all buttons to EditorStyling as button, also create dictionary for button items in order
-        #buttons = {
-        #    f'button_{i}': EditorStyling(button=child)
-        #    for i,child in enumerate(self.winfo_children(),start=1)
-        #}
-        self.styling = EditorStyling(menu_bar_frame=self)
+    # 'File' menu functions
 
-        # Pack buttons into the menu bar
-        #self.new_button.pack(side='left',padx=5,pady=5)
-        #self.open_button.pack(side='left',padx=5,pady=5)
-        #self.save_button.pack(side='left',padx=5,pady=5)
-        #self.save_as_button.pack(side='left',padx=5,pady=5)
+    def file_new(self):
+        print(self.editor)
 
-    # Placeholder methods for each button's action
-    def set_primary_components(self,editor_widget):
-        self.editor=editor_widget
-
-    def new_file(self):
-        print('new file')
-
-    def open_file(self):
+    def file_open(self):
         print('openy the file')
 
-    def save_file(self):
+    def file_save(self):
         print('save it i guess')
 
-    def save_as_file(self):
+    def file_save_as(self):
         print('save as, haha as')
 
-    def exit_file(self):
+    def file_exit(self):
         return 0
         
