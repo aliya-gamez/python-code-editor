@@ -10,13 +10,11 @@ Repository Name:    python-code-editor
 # PochaCode
 A code editor for writing Python.
 
-## Table of Contents
+### Table of Contents
 1. [About the Project](#about-the-project)
-2. [Features](#features)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Project Structure](#project-structure)
-6. [License](#license)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [License](#license)
 
 ## About the Project
 
