@@ -58,6 +58,20 @@ class EditorStyling:
                 widget_obj.configure(
                     background=self.base_0
                 )
+            elif widget_name=='menu_bar_frame':
+                widget_obj.configure(
+                    background=self.tint_1,
+                    highlightthickness=0,
+                    highlightbackground=self.tint_2,
+                    highlightcolor=self.tint_2
+                )
+            elif widget_name=='button':
+                widget_obj.configure(
+                    background=self.tint_2,
+                    foreground=self.base_2,
+                    relief=tk.FLAT,
+                    bd=0
+                )
             elif widget_name=='editor': # Main Editor
                 widget_obj.configure(
                     font=self.font,
@@ -118,4 +132,4 @@ class EditorStyling:
                 style.map('noarrow.Horizontal.TScrollbar',background=[('disabled',self.base_0)])
                 widget_obj.configure(style='noarrow.Horizontal.TScrollbar')
             else:
-                print('Alert:\tA widget passed into the EditorStyling class is not styled!')
+                print(f'Alert:\t{widget_name} passed into the EditorStyling class is not styled!')

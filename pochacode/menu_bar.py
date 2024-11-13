@@ -9,10 +9,17 @@ class MenuBar(tk.Frame):
         super().__init__(*args,**kwargs)
 
         # Initialize Buttons
-        self.new_button = tk.Button(self,text='New File',command=self.new_file)
-        self.open_button = tk.Button(self,text='Open',command=self.open_file)
-        self.save_button = tk.Button(self,text='Save',command=self.save_file)
-        self.save_as_button = tk.Button(self,text='Save As',command=self.save_as_file)
+        self.new_button = tk.Button(self,text='New File',command=self.new_file) # 1
+        self.open_button = tk.Button(self,text='Open',command=self.open_file) # 2
+        self.save_button = tk.Button(self,text='Save',command=self.save_file) # 3
+        self.save_as_button = tk.Button(self,text='Save As',command=self.save_as_file) # 4
+
+        # Pass all buttons to EditorStyling as button, also create dictionary for button items in order
+        buttons = {
+            f'button_{i}': EditorStyling(button=child)
+            for i,child in enumerate(self.winfo_children(),start=1)
+        }
+        self.styling = EditorStyling(menu_bar_frame=self)
 
         # Pack buttons into the menu bar
         self.new_button.pack(side="left",padx=5,pady=5)
@@ -21,6 +28,9 @@ class MenuBar(tk.Frame):
         self.save_as_button.pack(side="left",padx=5,pady=5)
 
     # Placeholder methods for each button's action
+    def set_primary_components(self,editor_widget):
+        self.editor=editor_widget
+
     def new_file(self):
         print("new file")
 

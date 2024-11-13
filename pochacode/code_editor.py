@@ -12,27 +12,30 @@ from .syntax_highlight import SyntaxHighlight
 class CodeEditor(tk.Frame):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
-        self.menu_bar = MenuBar(self)
+        self.menubar = MenuBar(self)
         self.linenumbers = TextLineNumbers(self,wrap=tk.NONE)
         self.linenumbers_gap = tk.Frame(self) # to fill in gap
         self.editor = tk.Text(self,wrap=tk.NONE)
 
-        # Vertical Editor Scrollbar (for linenumbers and editor text widget)
+        # Initialize Vertical Editor Scrollbar (for linenumbers and editor text widget)
         self.vsb = SyncedScrollbar(self,editor=self.editor,linenumbers=self.linenumbers)
 
-        # Horizontal Scrollbar
+        # Initialize Horizontal Scrollbar
         self.hsb = ttk.Scrollbar(self,orient=tk.HORIZONTAL,command=self.editor.xview)
         self.editor.configure(xscrollcommand=self.hsb.set)
 
-        # Pass to EditorStyling for styling and syntax
+        # Initialize EditorStyling with widgets to manage styling
         self.styling = EditorStyling(linenumbers=self.linenumbers,linenumbers_gap=self.linenumbers_gap,editor=self.editor,vsb=self.vsb,hsb=self.hsb)
         self.syntax = SyntaxHighlight(self.editor,self.styling)
 
-        # Pass to TextLineNumbers to apply functionality
+        # Configure TextLineNumbers with editor and vsb for fixing scroll between them
         self.linenumbers.set_primary_components(self.editor,self.vsb)
+
+        # Configure MenuBar with editor for file handling
+        self.menubar.set_primary_components(self.editor)
         
         # Place component on grid
-        self.menu_bar.grid(row=0, column=0, columnspan=3, sticky="nsew") # Menu Bar
+        self.menubar.grid(row=0, column=0, columnspan=3, sticky="nsew") # Menu Bar
         self.linenumbers.grid(row=1,column=0,pady=(0,0),padx=(0,0),sticky='ns') # Linenumbers
         self.editor.grid(row=1,column=1,pady=(0,0),padx=(5,2),sticky='nsew') # Editor
         self.vsb.grid(row=1,column=2,rowspan=3,sticky='nsew') # Vertical Scroll Bar
@@ -41,7 +44,7 @@ class CodeEditor(tk.Frame):
 
         # Configure grid weights for proper resizing
         # (0,0) Menu Bar (Span 3 Columns)
-        self.grid_rowconfigure(0,weight=1)
+        self.grid_rowconfigure(0,weight=0)
         self.grid_columnconfigure(0,weight=1)
         # (1,0) Linenumbers
         self.grid_rowconfigure(1,weight=1)
