@@ -26,25 +26,25 @@ class EditorStyling:
         self.base_0 = '#2a1b25' # Base *
 
         # Syntax Highlighting Colors (base)
-        self.keyword = '#cba6f7'        #muave
-        self.punctuation = '#f38ba8'    #red
-        self.decorator = '#fab387'      #peach
-        self.number = '#fab387'         #peach
-        self.class_name = '#f9e2af'     #yellow
-        self.string = '#a6e3a1'         #green
-        self.operator = '#a6e3a1'       #green
-        self.constant = '#94e2d5'       #teal
-        self.function_name = '#89b4fa'  #blue
-        self.hexcode = '#e3a1a6'       # pale pink
+        self.keyword = '#c09ceb'        # muave
+        self.punctuation = '#f597b1'    # red
+        self.decorator = '#f5b38a'      # peach
+        self.number = '#f5b38a'         # peach
+        self.class_name = '#f9e2af'     # yellow
+        self.string = '#98e79c'         # green
+        self.operator = '#98e79c'       # green
+        self.constant = '#a3e5ee'       # teal
+        self.function_name = '#98aef8'  # blue
+        self.hexcode = '#e3a1a6'        # pale pink
         self.parameter = '#e3a1a6'      # pale pink
-        self.comment = '#6d866c'        #green_1
+        self.comment = '#6d866c'        # green_1
         # Syntax Highlighting Colors (specific)
-        self.print_keyword = '#fab387'  #peach
-        self.punc_curly = '#fab387'     #peach
-        self.regex_content = '#b1c4c1'  #muted_teal
-        self.punc_colon = '#93b293'     #green_2
-        self.punc_curlyin = '#c7cac6'   #green_3
-        self.self_keyword = '#f38ba8'   #red
+        self.print_keyword = '#fab387'  # peach
+        self.punc_curly = '#fab387'     # peach
+        self.regex_content = '#b1c4c1'  # muted_teal
+        self.punc_colon = '#93b293'     # green_2
+        self.punc_curlyin = '#c7cac6'   # green_3
+        self.self_keyword = '#f5789c'   # deep_red
 
         # Call function 
         self._apply_styles()

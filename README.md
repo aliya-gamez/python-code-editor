@@ -22,7 +22,7 @@ A code editor for writing Python.
 
 <img src="docs/screenshot.png">
 
-This is a simple code editor written in Python, for Python. Currently, all it can do is write and display code.
+This is a simple code editor written in Python, for Python. Currently, all it can do is write and display code. The main theme for the editors styling and syntax was created by me, however it will probably change.
 
 ### Built With
 
@@ -37,6 +37,7 @@ This is a simple code editor written in Python, for Python. Currently, all it ca
 ### Planned Features
 
 - File handling (New File, Open, Save, Save As)
+- Theme Selection
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
