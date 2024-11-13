@@ -50,9 +50,16 @@ This is a simple code editor written in Python, for Python. Currently, all it ca
 
 #### 2. Clone the Repository:
 
-- **Linux/MacOS and Windows**:
+- **Linux/MacOS**:
   ```bash
-  # Windows and Linux/macOS
+  # Unix Shell
+  git clone https://github.com/aliya-gamez/python-code-editor.git
+  cd python-code-editor
+  ```
+
+- **Windows**:
+  ```bash
+  # Git Bash
   git clone https://github.com/aliya-gamez/python-code-editor.git
   cd python-code-editor
   ```
