@@ -96,7 +96,7 @@ Download the editor, ```cd``` to where it was downloaded and then run it in cons
 - **Windows**:
   ```bash
   # Run the application in Command Prompt
-  python main.py
+  py -m pochacode
   ```
 
  <p align="right">(<a href="#readme-top">back to top</a>)</p>
