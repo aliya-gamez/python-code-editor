@@ -49,6 +49,7 @@ This is a simple code editor written in Python, for Python. Currently, all it ca
 - Tkinter
 
 #### 2. Clone the Repository:
+
 - **Linux/MacOS and Windows**
   ```bash
   # Windows and Linux/macOS
@@ -58,10 +59,12 @@ This is a simple code editor written in Python, for Python. Currently, all it ca
 
 #### 3. Install Tkinter (if not installed):
 Only run these commands if you do not have tkinter installed.
+
 - **Linux/MacOS**:
   ```bash
   sudo apt install python3-tk
   ```
+
 - **Windows**:
   ```bash
   pip install tk
