@@ -5,7 +5,7 @@ from tkinter import ttk
 
 from .utils.synced_scrollbar import SyncedScrollbar
 from .utils.text_line_numbers import TextLineNumbers
-from .menubar import MenuBar
+from .menu_bar import MenuBar
 from .editor_styling import EditorStyling
 from .syntax_highlight import SyntaxHighlight
 

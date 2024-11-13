@@ -4,6 +4,7 @@ import tkinter as tk
 
 from .code_editor import CodeEditor
 from .editor_styling import EditorStyling
+from .menu_bar import MenuBar
 
 class MainApp:
     def __init__(self):
