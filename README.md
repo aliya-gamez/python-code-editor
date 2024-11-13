@@ -25,7 +25,7 @@ This is a simple code editor written in Python, for Python. Currently, all it ca
 ### Built With
 
 - Python
-- Tkinter (Python GUI toolkit).
+- Tkinter (Python GUI toolkit)
 
 ### Features
 
@@ -50,22 +50,22 @@ This is a simple code editor written in Python, for Python. Currently, all it ca
 
 #### 2. Clone the Repository:
 - **Linux/MacOS and Windows**
-    ```bash
-    # Windows and Linux/macOS
-    git clone https://github.com/aliya-gamez/python-code-editor.git
-    cd python-code-editor
-    ```
+  ```bash
+  # Windows and Linux/macOS
+  git clone https://github.com/aliya-gamez/python-code-editor.git
+  cd python-code-editor
+  ```
 
 #### 3. Install Tkinter (if not installed):
 Only run these commands if you do not have tkinter installed.
 - **Linux/MacOS**:
-    ```bash
-    sudo apt install python3-tk
-    ```
+  ```bash
+  sudo apt install python3-tk
+  ```
 - **Windows**:
-    ```bash
-    pip install tk
-    ```
+  ```bash
+  pip install tk
+  ```
 
  <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
