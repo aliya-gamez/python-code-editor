@@ -57,7 +57,7 @@ class EditorStyling:
                 widget_obj.configure(
                     background=self.tint_2,
                 )
-            elif widget_name=='code_editor_frame':
+            elif widget_name=='editor_layout':
                 widget_obj.configure(
                     background=self.base_0,
                     highlightthickness=0,

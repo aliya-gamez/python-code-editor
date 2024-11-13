@@ -4,14 +4,14 @@ import tkinter as tk
 
 from .menu_bar import MenuBar
 from .status_bar import StatusBar
-from .code_editor import CodeEditor
+from .editor_layout import EditorLayout
 from .editor_styling import EditorStyling
 
 class MainApp:
     def __init__(self):
         self.root = tk.Tk() # Main window
-        self.menu_bar = MenuBar(self.root)
-        self.code_editor_frame = CodeEditor(self.root)
+        self.menu_bar = MenuBar(self.root,self.root)
+        self.editor_layout = EditorLayout(self.root)
         self.status_bar = StatusBar(self.root)
 
         # Main window configuration
@@ -22,14 +22,14 @@ class MainApp:
         self.root.configure(menu=self.menu_bar,padx=4)
 
         # Initialize EditorStyling with widgets to manage styling
-        self.styling = EditorStyling(root=self.root,code_editor_frame=self.code_editor_frame,menu_bar=self.menu_bar,status_bar=self.status_bar)
+        self.styling = EditorStyling(root=self.root,editor_layout=self.editor_layout,menu_bar=self.menu_bar,status_bar=self.status_bar)
 
         # Place frame into window with pack
-        self.code_editor_frame.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
+        self.editor_layout.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
         self.status_bar.pack(side=tk.BOTTOM,fill=tk.X)
 
         # Set primary editor in MenuBar
-        self.menu_bar.set_editor(self.code_editor_frame.editor)
+        self.menu_bar.set_widgets(self.editor_layout.editor,self.editor_layout)
 
     def program_run(self):
         self.root.mainloop()

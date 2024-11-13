@@ -21,6 +21,6 @@ class StatusBar(tk.Frame):
         # Place label into window with pack
         self.position_label.pack(fill='x')
 
-    def set_editor(self,editor_widget):
+    def set_widgets(self,editor_widget):
         self.editor = editor_widget
         

@@ -14,7 +14,7 @@ class TextLineNumbers(tk.Text):
         self.current_line_count = 0
         self.config(state=tk.DISABLED)
 
-    def set_primary_components(self,editor_widget,vsb_widget): # Setter for editor and vsb
+    def set_widgets(self,editor_widget,vsb_widget): # Setter for editor and vsb
         self.editor = editor_widget
         self.vsb = vsb_widget
 

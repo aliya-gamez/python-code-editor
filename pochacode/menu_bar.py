@@ -1,13 +1,18 @@
 # pochacode/menu_bar.py
 
 import tkinter as tk
+from tkinter import filedialog, messagebox
 
 from .editor_styling import EditorStyling
 
+FILETYPES = [('Python','*.py'),('All Files','*')]
+
 class MenuBar(tk.Menu):
-    def __init__(self,*args,**kwargs):
+    def __init__(self,root_window,*args,**kwargs):
         super().__init__(*args,**kwargs)
+        self.root = root_window
         self.editor = None
+        self.editor_layout = None
 
         # Initialize 'File' menu within MenuBar and configure
         file_menu = tk.Menu(self,tearoff=0)
@@ -25,17 +30,30 @@ class MenuBar(tk.Menu):
             for i,child in enumerate(self.winfo_children(),start=1)
         }
 
-    def set_editor(self,editor_widget):
+    def set_widgets(self,editor_widget,editor_layout_widget):
         self.editor = editor_widget
+        self.editor_layout = editor_layout_widget
 
-    # 'File' menu functions
+    # 'File' functions
 
     def file_new(self):
-        print(self.editor)
+        self.editor.delete('1.0',tk.END)
 
     def file_open(self):
-        print('openy the file')
-
+        filename = filedialog.askopenfilename(filetypes=FILETYPES)
+        if filename:
+            self.root.title(f'PochaCode: {filename}')
+            self.editor.delete('1.0',tk.END)
+            try:
+                with open(filename,'r') as f:
+                    file_content = f.read()
+            except(OSError,UnicodeError) as e:
+                messagebox.showerror(type(e).__name__,traceback.format_exc())
+            else:
+                self.filename = filename
+                self.editor.delete('1.0',tk.END)
+                self.editor.insert('1.0',file_content)
+                self.editor_layout.update()
     def file_save(self):
         print('save it i guess')
 
