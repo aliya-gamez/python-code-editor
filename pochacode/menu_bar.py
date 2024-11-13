@@ -19,6 +19,12 @@ class MenuBar(tk.Menu):
         file_menu.add_separator()
         file_menu.add_command(label='Exit',command=self.file_exit)
 
+        # Pass all menus to EditorStyling as menu, also create dictionary for menu items in order
+        menu_items = {
+            f'menu_item_{i}': EditorStyling(menu_item=child)
+            for i,child in enumerate(self.winfo_children(),start=1)
+        }
+
     def set_editor(self,editor_widget):
         self.editor = editor_widget
 

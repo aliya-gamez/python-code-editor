@@ -13,6 +13,7 @@ class EditorStyling:
         # Styling colors
         self.alt_text = '#a7aaab'
         self.normal_text = '#c6cac7'
+        self.tint_active = '#eaebea'
         self.tint_2 = '#cac6c8' # tint lightest
         self.tint_1 = '#958d92' # Tint lighter
         self.tint_0 = '#5f545c' # Tint *
@@ -52,9 +53,44 @@ class EditorStyling:
 
         # Iterate over key and value for specific styling
         for widget_name,widget_obj in self._widgets.items():
-            if widget_name=='code_editor_frame':
+            if widget_name=='root':
                 widget_obj.configure(
-                    background=self.base_0
+                    background=self.tint_2,
+                )
+            elif widget_name=='code_editor_frame':
+                widget_obj.configure(
+                    background=self.base_0,
+                    highlightthickness=0,
+                    highlightbackground=self.tint_2,
+                    highlightcolor=self.tint_2
+                )
+            elif widget_name=='menu_bar':
+                widget_obj.configure(
+                    background=self.tint_2,
+                    foreground=self.base_2,
+                    activebackground=self.tint_active,
+                    activeforeground=self.base_2,
+                    bd=0,
+                    relief=tk.FLAT
+                )
+            elif widget_name=='menu_item':
+                widget_obj.configure(
+                    background=self.base_0,
+                    foreground='#ffffff',
+                    activebackground=self.tint_active,
+                    activeforeground=self.base_2,
+                    bd=2,
+                    relief=tk.FLAT
+                )
+            elif widget_name=='status_bar':
+                widget_obj.configure(
+                    background=self.tint_2,
+                    bd=0,
+                    relief=tk.FLAT
+                )
+            elif widget_name=='status_label':
+                widget_obj.configure(
+                    background=self.tint_2
                 )
             elif widget_name=='editor': # Main Editor
                 widget_obj.configure(
@@ -75,9 +111,9 @@ class EditorStyling:
                 widget_obj.configure(
                     font=self.font,
                     background=self.base_2,
-                    foreground=self.alt_text,
+                    foreground=self.tint_2,
                     selectbackground=self.base_2,
-                    selectforeground=self.alt_text,
+                    selectforeground=self.tint_2,
                     insertbackground=self.base_2,
                     highlightthickness=0,
                     relief=tk.FLAT,
@@ -96,10 +132,10 @@ class EditorStyling:
                 style.layout('noarrow.Vertical.TScrollbar',[('Vertical.Scrollbar.trough',{'sticky':'ns','children':[('Vertical.Scrollbar.thumb',{'sticky':'nswe','expand':'1'})]})])
                 style.configure(
                     'noarrow.Vertical.TScrollbar',
-                    background=self.tone_1,
-                    troughcolor=self.base_1,
+                    background=self.tone_2,
+                    troughcolor=self.base_2,
                     borderwidth=0,
-                    width=14
+                    width=11
                 )
                 style.map('noarrow.Vertical.TScrollbar',background=[('disabled',self.base_0)])
                 widget_obj.configure(style='noarrow.Vertical.TScrollbar')
@@ -108,10 +144,10 @@ class EditorStyling:
                 style.layout('noarrow.Horizontal.TScrollbar',[('Horizontal.Scrollbar.trough',{'sticky':'we','children':[('Horizontal.Scrollbar.thumb',{'sticky':'nswe','expand':'1'})]})])
                 style.configure(
                     'noarrow.Horizontal.TScrollbar',
-                    background=self.tone_1,
+                    background=self.tone_2,
                     troughcolor=self.base_0,
                     borderwidth=0,
-                    width=14
+                    width=11
                 )
                 style.map('noarrow.Horizontal.TScrollbar',background=[('disabled',self.base_0)])
                 widget_obj.configure(style='noarrow.Horizontal.TScrollbar')
