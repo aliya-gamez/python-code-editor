@@ -36,6 +36,7 @@ This is a simple code editor written in Python, for Python. Currently, all it ca
 
 - File handling (New File, Open, Save, Save As)
 - 'Action' bar on bottom of editor (Shows Lines #, Current Ln#Col#, Turn Off Syntax/Styling/Theme/Font, Screenshot, etc)
+- Tabs for files
 - Theme Selection
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
