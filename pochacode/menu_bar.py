@@ -44,7 +44,7 @@ class MenuBar(tk.Menu):
     # 'File' functions
 
     def file_new(self):
-        if self.file_save_check('Create a new file'):
+        if self.file_save_check('Create python file'):
             self.editor.delete('1.0',tk.END)
             self.editor.edit_modified(False)
             self.editor.edit_reset()
@@ -52,7 +52,7 @@ class MenuBar(tk.Menu):
             self.editor_layout.key_update()
 
     def file_open(self,filename=None):
-        if self.file_save_check('Open a file') == False:
+        if self.file_save_check('Open file') == False:
             return
         if filename is None:
             options = {}
@@ -98,7 +98,7 @@ class MenuBar(tk.Menu):
     def file_save_check(self,title):
         if self.editor.edit_modified():
             if self.filename is None:
-                message = 'Do you want to save the changes to the file?'
+                message = 'Do you want to save the changes to the current file?'
             else:
                 message = f'Do you want to save your changes to {self.filename}?'
             answer = messagebox.askyesnocancel(title,message)
