@@ -30,7 +30,8 @@ class MainApp:
         
         # Set widgets
         self.menu_bar.set_widgets(self.root,self.editor_layout.editor,self.editor_layout)
-        self.editor_layout.set_widgets(self.menu_bar)
+        self.editor_layout.set_widgets(self.menu_bar,self.status_bar)
+        self.status_bar.set_widgets(self.editor_layout.editor)
 
     def program_run(self):
         self.root.mainloop()

@@ -49,7 +49,7 @@ class MenuBar(tk.Menu):
             self.editor.edit_modified(False)
             self.editor.edit_reset()
             self.filename = None
-            self.editor_layout.update()
+            self.editor_layout.key_update()
 
     def file_open(self,filename=None):
         if self.file_save_check('Open a file') == False:
@@ -70,7 +70,7 @@ class MenuBar(tk.Menu):
             self.editor.insert('1.0',file_content)
             self.editor.edit_modified(False)
             self.editor.edit_reset()
-            self.editor_layout.update()
+            self.editor_layout.key_update()
 
     def file_save(self):
         if self.filename is None:
@@ -84,7 +84,7 @@ class MenuBar(tk.Menu):
                 messagebox.showerror(type(e).__name__,traceback.format_exc())
             else:
                 self.editor.edit_modified(False)
-                self.editor_layout.update()
+                self.editor_layout.key_update()
 
     def file_save_as(self):
         options = {}

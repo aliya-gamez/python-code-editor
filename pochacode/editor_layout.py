@@ -49,7 +49,8 @@ class EditorLayout(tk.Frame):
 
         # Binds for EditorLayout
         self._editor.bind_class('Text','<Control-Key-a>',self._select_all)
-        self._editor.bind('<KeyRelease>',self._on_event)
+        self._editor.bind('<KeyRelease>',self._on_key_event)
+        self._editor.bind('<ButtonRelease>',self._on_mouse_event)
 
         # Configure editor to 
         self._editor.focus_set()
@@ -64,17 +65,26 @@ class EditorLayout(tk.Frame):
     def editor(self): # Property to access editor
         return self._editor
 
-    def set_widgets(self,menu_bar_widget):
+    def set_widgets(self,menu_bar_widget,status_bar_widget):
         self.menu_bar = menu_bar_widget
+        self.status_bar = status_bar_widget
 
-    def _on_event(self,event):
-        self.update()
+    def _on_key_event(self,event):
+        self.key_update()
 
-    def update(self):
+    def key_update(self):
         # Apply syntax highlighting
         self.syntax.apply_syntax_highlighting()
         self.linenumbers.on_linenumber_change_event()
         self.menu_bar.update_top_title()
+        self.status_bar.update_line_col()
+
+    def _on_mouse_event(self,event):
+        self.mouse_update()
+    
+    def mouse_update(self):
+        self.status_bar.update_line_col()
+
 
     def _select_all(self,event=None): # selects all text, also allows selections to 
         self._editor.tag_add(tk.SEL,'1.0',tk.END)

@@ -21,6 +21,17 @@ class StatusBar(tk.Frame):
         # Place label into window with pack
         self.position_label.pack(fill='x')
 
+        # Run at least once
+        self.update_line_col()
+
+    def update_line_col(self):
+        (line,cols) = ['1','0']
+        if self.editor is not None:
+            (line,cols) = self.editor.index(tk.INSERT).split('.')
+            self.position_label['text'] = f'Ln {line}, Col {cols}'
+        else:
+            return
+
     def set_widgets(self,editor_widget):
         self.editor = editor_widget
         
