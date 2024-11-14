@@ -29,12 +29,12 @@ This is a simple code editor written in Python, for Python. Currently, all it ca
 
 ### Features
 
+- File handling (New File, Open, Save, Save As)
 - Syntax highlighting (WIP)
 - Line numbers (WIP)
 
 ### Planned Features
 
-- File handling (New File, Open, Save, Save As)
 - 'Status' bar on bottom of editor (Shows Lines #, Current Ln#Col#, Turn Off Syntax/Styling/Theme/Font, Screenshot, etc)
 - Tabs for files
 - Theme Selection

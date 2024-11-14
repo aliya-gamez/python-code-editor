@@ -10,7 +10,7 @@ from .editor_styling import EditorStyling
 class MainApp:
     def __init__(self):
         self.root = tk.Tk() # Main window
-        self.menu_bar = MenuBar(self.root,self.root)
+        self.menu_bar = MenuBar(self.root)
         self.editor_layout = EditorLayout(self.root)
         self.status_bar = StatusBar(self.root)
 
@@ -18,7 +18,7 @@ class MainApp:
         screen_width = self.root.winfo_screenwidth() 
         screen_height = self.root.winfo_screenheight()
         self.root.geometry(f'800x600+{screen_width//11}+{(screen_height//4)+10}')
-        self.root.title("PochaCode: Python Editor")
+        self.root.title("PochaCode: New File")
         self.root.configure(menu=self.menu_bar,padx=4)
 
         # Initialize EditorStyling with widgets to manage styling
@@ -27,9 +27,10 @@ class MainApp:
         # Place frame into window with pack
         self.editor_layout.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
         self.status_bar.pack(side=tk.BOTTOM,fill=tk.X)
-
-        # Set primary editor in MenuBar
-        self.menu_bar.set_widgets(self.editor_layout.editor,self.editor_layout)
+        
+        # Set widgets
+        self.menu_bar.set_widgets(self.root,self.editor_layout.editor,self.editor_layout)
+        self.editor_layout.set_widgets(self.menu_bar)
 
     def program_run(self):
         self.root.mainloop()

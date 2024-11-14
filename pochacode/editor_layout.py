@@ -64,6 +64,9 @@ class EditorLayout(tk.Frame):
     def editor(self): # Property to access editor
         return self._editor
 
+    def set_widgets(self,menu_bar_widget):
+        self.menu_bar = menu_bar_widget
+
     def _on_event(self,event):
         self.update()
 
@@ -71,6 +74,7 @@ class EditorLayout(tk.Frame):
         # Apply syntax highlighting
         self.syntax.apply_syntax_highlighting()
         self.linenumbers.on_linenumber_change_event()
+        self.menu_bar.update_top_title()
 
     def _select_all(self,event=None): # selects all text, also allows selections to 
         self._editor.tag_add(tk.SEL,'1.0',tk.END)
