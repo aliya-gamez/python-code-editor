@@ -33,6 +33,12 @@ class MainApp:
         self.editor_layout.set_widgets(self.menu_bar,self.status_bar)
         self.status_bar.set_widgets(self.editor_layout.editor)
 
+        # Intercept the 'X' button click
+        if self.root is not None:
+            self.root.protocol('WM_DELETE_WINDOW', self.menu_bar.file_exit)
+        else:
+            return
+
     def program_run(self):
         self.root.mainloop()
 

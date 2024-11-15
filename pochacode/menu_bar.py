@@ -33,9 +33,6 @@ class MenuBar(tk.Menu):
             for i,child in enumerate(self.winfo_children(),start=1)
         }
 
-        # Binds
-        self.bind('<Destroy>',self.file_exit)
-
     def set_widgets(self,root_widget,editor_widget,editor_layout_widget):
         self.root = root_widget
         self.editor = editor_widget
@@ -120,5 +117,5 @@ class MenuBar(tk.Menu):
 
     def file_exit(self,event=None):
         if self.file_save_check('Quit'):
-            self.quit()
+            self.root.destroy()
         
