@@ -91,6 +91,7 @@ class EditorStyling:
             elif widget_name=='action_btn':
                 widget_obj.configure(
                     background=self.tint_2,
+                    activebackground=self.tint_2,
                     bd=0,
                     highlightthickness=0,
                     relief=tk.FLAT,

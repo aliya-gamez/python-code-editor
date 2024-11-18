@@ -33,7 +33,8 @@ class MainApp:
 
         # Set widgets
         self.menu_bar.set_widgets(self.root,self.editor_layout.editor,self.editor_layout)
-        self.editor_layout.set_widgets(self.menu_bar,self.status_bar)
+        self.menu_action_bar.set_widgets(self.editor_layout.editor)
+        self.editor_layout.set_widgets(self.menu_bar,self.menu_action_bar,self.status_bar)
         self.status_bar.set_widgets(self.editor_layout.editor)
 
         # Intercept the 'X' button click

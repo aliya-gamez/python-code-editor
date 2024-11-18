@@ -65,8 +65,9 @@ class EditorLayout(tk.Frame):
     def editor(self): # Property to access editor
         return self._editor
 
-    def set_widgets(self,menu_bar_widget,status_bar_widget):
+    def set_widgets(self,menu_bar_widget,menu_action_bar_widget,status_bar_widget):
         self.menu_bar = menu_bar_widget
+        self.menu_action_bar = menu_action_bar_widget
         self.status_bar = status_bar_widget
 
     def _on_key_event(self,event):
@@ -77,6 +78,7 @@ class EditorLayout(tk.Frame):
         self.syntax.apply_syntax_highlighting()
         self.linenumbers.on_linenumber_change_event()
         self.menu_bar.update_top_title()
+        self.menu_action_bar.update_save_icon()
         self.status_bar.update_line_col()
 
     def _on_mouse_event(self,event):
