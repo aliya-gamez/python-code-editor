@@ -107,6 +107,10 @@ Download the editor, ```cd``` to where it was downloaded and then run it in cons
 
 ### License
 
-There is currently no license.
+Copyright &copy; Aliya Gamez 2024.
+
+Permission is granted to use this software for personal or internal purposes only.
+Redistribution, copying, or modification of this software, in whole or in part, 
+without explicit written permission from the author, is strictly prohibited.
 
  <p align="right">(<a href="#readme-top">back to top</a>)</p>
