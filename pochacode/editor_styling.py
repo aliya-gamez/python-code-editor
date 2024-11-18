@@ -82,6 +82,22 @@ class EditorStyling:
                     bd=2,
                     relief=tk.FLAT
                 )
+            elif widget_name=='action_bar':
+                widget_obj.configure(
+                    background=self.tint_2,
+                    bd=0,
+                    relief=tk.FLAT
+                )
+            elif widget_name=='action_btn':
+                widget_obj.configure(
+                    background=self.tint_2,
+                    bd=0,
+                    highlightthickness=0,
+                    relief=tk.FLAT,
+                    cursor='hand2',
+                    width=22,
+                    height=22
+                )
             elif widget_name=='status_bar':
                 widget_obj.configure(
                     background=self.tint_2,
