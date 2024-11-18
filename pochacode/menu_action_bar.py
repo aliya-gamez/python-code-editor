@@ -5,7 +5,6 @@ import cairosvg
 import io
 from PIL import Image,ImageTk
 
-
 from .editor_styling import EditorStyling
 
 class MenuActionBar(tk.Frame):
