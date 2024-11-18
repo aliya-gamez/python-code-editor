@@ -1,6 +1,8 @@
 # pochacode/menu_action_bar.py
 
 import tkinter as tk
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPDF, renderPM
 
 from .editor_styling import EditorStyling
 
