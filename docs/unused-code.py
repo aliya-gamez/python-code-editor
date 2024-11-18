@@ -2,7 +2,7 @@
 
 # pochacode/editor_layout.py
 
-    self.action_bar.grid(row=0, column=0, columnspan=3, sticky="nsew") # Action Bar (not created yet but placed for future reference)
+    self.menu_action_bar.grid(row=0, column=0, columnspan=3, sticky="nsew") # Action Bar (not created yet but placed for future reference)
     # (0,0) Action Bar (Span 3 Columns) (not created yet but placed for future reference)
     self.grid_rowconfigure(0,weight=0)
     self.grid_columnconfigure(0,weight=1)

@@ -31,7 +31,7 @@ class EditorLayout(tk.Frame):
         self._editor.grid(row=1,column=1,pady=(0,0),padx=(5,2),sticky='nsew') # Editor
         self.vsb.grid(row=1,column=2,rowspan=3,sticky='nsew') # Vertical Scroll Bar
         self.linenumbers_gap.grid(row=2,column=0,sticky='nsew') 
-        self.hsb.grid(row=2,column=1,sticky='nswe') # Horizontal Scroll Bar (hsb)
+        self.hsb.grid(row=2,column=1,sticky='nsew') # Horizontal Scroll Bar (hsb)
 
         # Configure grid weights for proper resizing
         # (1,0) Linenumbers
