@@ -19,7 +19,7 @@ class StatusBar(tk.Frame):
         }
 
         # Place label into window with pack
-        self.position_label.pack(fill='x')
+        self.position_label.pack(fill=tk.BOTH,expand=1)
 
         # Run at least once
         self.update_line_col()

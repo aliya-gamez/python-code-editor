@@ -22,14 +22,19 @@ class MainApp:
         self.root.geometry(f'800x600+{screen_width//11}+{(screen_height//4)+10}')
         self.root.title("PochaCode: New File")
         self.root.configure(menu=self.menu_bar,padx=4)
-
+        
         # Initialize EditorStyling with widgets to manage styling
         self.styling = EditorStyling(root=self.root,editor_layout=self.editor_layout,menu_bar=self.menu_bar,menu_action_bar=self.menu_action_bar,status_bar=self.status_bar)
 
-        # Place frame into window with pack
-        self.menu_action_bar.pack(side=tk.TOP,fill=tk.X) # Action Bar (not created yet but placed for future reference)
-        self.editor_layout.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
-        self.status_bar.pack(side=tk.BOTTOM,fill=tk.X)
+        # Place frame into window with grid
+        self.menu_action_bar.grid(row=0,column=0,sticky='nsew')
+        self.editor_layout.grid(row=1,column=0,sticky='nsew')
+        self.status_bar.grid(row=2,column=0,sticky='nsew')
+
+        self.root.grid_rowconfigure(0,minsize=30,weight=0)
+        self.root.grid_rowconfigure(1,weight=1)
+        self.root.grid_rowconfigure(2,minsize=20,weight=0)
+        self.root.grid_columnconfigure(0,weight=1)
 
         # Set widgets
         self.menu_bar.set_widgets(self.root,self.editor_layout.editor,self.editor_layout)
