@@ -24,10 +24,10 @@ class MainApp:
         self.root.configure(menu=self.menu_bar,padx=4)
 
         # Initialize EditorStyling with widgets to manage styling
-        self.styling = EditorStyling(root=self.root,editor_layout=self.editor_layout,menu_bar=self.menu_bar,status_bar=self.status_bar)
+        self.styling = EditorStyling(root=self.root,editor_layout=self.editor_layout,menu_bar=self.menu_bar,menu_action_bar=self.menu_action_bar,status_bar=self.status_bar)
 
         # Place frame into window with pack
-        self.menu_action_bar.pack(side=tk.TOP,fill=tk.BOTH) # Action Bar (not created yet but placed for future reference)
+        self.menu_action_bar.pack(side=tk.TOP,fill=tk.X) # Action Bar (not created yet but placed for future reference)
         self.editor_layout.pack(side=tk.TOP,fill=tk.BOTH,expand=1)
         self.status_bar.pack(side=tk.BOTTOM,fill=tk.X)
 

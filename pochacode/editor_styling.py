@@ -82,13 +82,13 @@ class EditorStyling:
                     bd=2,
                     relief=tk.FLAT
                 )
-            elif widget_name=='action_bar':
+            elif widget_name=='menu_action_bar':
                 widget_obj.configure(
                     background=self.tint_2,
                     bd=0,
                     relief=tk.FLAT
                 )
-            elif widget_name=='action_btn':
+            elif widget_name=='menu_action_btn':
                 widget_obj.configure(
                     background=self.tint_2,
                     activebackground=self.tint_2,

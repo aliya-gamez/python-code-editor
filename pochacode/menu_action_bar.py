@@ -21,11 +21,10 @@ class MenuActionBar(tk.Frame):
         self.file_exit_btn = tk.Button(self,command=self.menu_bar.file_exit)
 
         # Pass all buttons to EditorStyling as action_btn, also create dictionary for 'action' items in order
-        action_btns = {
-            f'button_item_{i}': EditorStyling(action_btn=child)
+        menu_action_btns = {
+            f'button_item_{i}': EditorStyling(menu_action_btn=child)
             for i,child in enumerate(self.winfo_children(),start=1)
         }
-        EditorStyling(action_bar=self)
 
         # Pack buttons into the action bar
         self.file_new_btn.pack(side=tk.LEFT,padx=(0,4),pady=(2,4))
